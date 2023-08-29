@@ -11,8 +11,8 @@ export default function ActivityList({activities}: Props) {
         <>
             {activities.map(activity => (
                 <div className="m-3 pb-5 border-b">
-                    <div className='w-full text-black'>
-                        <h2>{ activity.title }</h2>
+                    <div className='w-full'>
+                        <h2 className='text-xl font-medium'>{ activity.title }</h2>
                         <p className="text-gray-300 my-2">{ activity.date }</p>
                         <p>{ activity.description }</p>
                         <p>{ activity.venue }, { activity.city }</p>
