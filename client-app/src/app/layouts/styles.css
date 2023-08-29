@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+}
+
+body {
+  background: linear-gradient(45deg, #0D324D 0%, #7F5A83 100%) !important;
+  color: white !important;
+  min-height: 100vh;
+}
+
+p, h1, h2, h3, h4, h5, h6, span, a {
+  margin: 0 ;
+  padding: 0 ;
+}
+
+.navbar {
+  background: #654ea3;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #eaafc8, #654ea3);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #eaafc8, #654ea3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
