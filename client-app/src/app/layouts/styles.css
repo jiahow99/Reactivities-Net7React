@@ -26,3 +26,11 @@ p, h1, h2, h3, h4, h5, h6, span, a {
   background: -webkit-linear-gradient(to right, #eaafc8, #654ea3);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #eaafc8, #654ea3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+
+.input-field {
+  @apply w-full bg-transparent border-white placeholder:text-gray-300 focus:border-[#E2A9C6] focus:ring-[#E2A9C6] rounded-md text-sm
+}
+
+.btn-secondary {
+  @apply border-2 border-[#E2A9C6] hover:bg-[#E2A9C6] duration-200 rounded-lg
+}

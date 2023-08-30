@@ -11,7 +11,8 @@ import ActivityForm from '../../Components/ActivityForm';
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [selectedActivity, setSelectedActivity] = useState<Activity | undefined>(undefined);
-  
+  const [editMode, setEditMode] = useState(false);
+
   // call API
   useEffect(() => {
     axios.get<Activity[]>('http://localhost:5000/api/activity')
@@ -22,6 +23,7 @@ function App() {
 
   // Set selected activity
   function handleSelectActivity(id: string) {
+    setEditMode(false);
     setSelectedActivity(activities.find(x => x.id === id));
   }
 
@@ -30,22 +32,47 @@ function App() {
     setSelectedActivity(undefined);
   }
 
+  // Open edit form with activity information
+  function handleOpenEdit(id?: string) {
+    id ? handleSelectActivity(id) : setSelectedActivity(undefined); 
+    setEditMode(true);  
+  }
+
+  // Close edit form
+  function handleCloseEdit() {
+    setEditMode(false); 
+    setSelectedActivity(undefined);
+  }
+
   return (
     <>
-      <Navbar />
+      <Navbar openEdit={handleOpenEdit} />
 
-      <div className='w-9/12 mx-auto flex gap-16 pt-10'>
+      <div className='w-9/12 mx-auto flex gap-10 pt-10'>
           <div className='w-7/12 flex flex-col bg-[#7F5A83]'>
+            {/* Activity List */}
             <ActivityList 
               activities={activities} 
+              selectActivity={handleSelectActivity}
             />
           </div>
-          <div className="w-4/12 flex flex-col gap-10">
 
-            <ActivityDetail />
+          <div className="w-5/12 flex flex-col gap-2">
+            {/* Activity Detail */}
+            { selectedActivity && !editMode &&
+            <ActivityDetail 
+              activity={selectedActivity} 
+              cancelSelectActivity={handleCancelSelectActivity} 
+              openEdit={handleOpenEdit}
+            />}
 
-            <ActivityForm />
-
+            {/* Activity Form */}
+            {editMode && 
+            <ActivityForm 
+              activity={selectedActivity} 
+              closeEdit={handleCloseEdit}
+            />}
+            
           </div>
       </div>
     </>
