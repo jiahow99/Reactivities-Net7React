@@ -6,6 +6,7 @@ import Navbar from '../../Components/Navbar';
 import ActivityList from '../../Components/ActivityList';
 import ActivityDetail from '../../Components/ActivityDetails';
 import ActivityForm from '../../Components/ActivityForm';
+import api from '../../api/api';
 
 
 function App() {
@@ -13,15 +14,23 @@ function App() {
   const [selectedActivity, setSelectedActivity] = useState<Activity | undefined>(undefined);
   const [editMode, setEditMode] = useState(false);
 
-  // call API
+  // call API (index)
   useEffect(() => {
-    axios.get<Activity[]>('http://localhost:5000/api/activity')
-      .then(response => {
-        setActivities(response.data);
-      })
+    api.index().then(response => {
+      // Format date
+      formatDate(response)  
+      setActivities(response); 
+    })
   },[]);
 
-  // Set selected activity
+  // Format date to 10/10/2023
+  function formatDate(data: Activity[]) {
+    data.forEach(activity => {
+      activity.date = activity.date.split('T')[0];
+    })
+  }
+
+  // Set selected activity  
   function handleSelectActivity(id: string) {
     setEditMode(false);
     setSelectedActivity(activities.find(x => x.id === id));
