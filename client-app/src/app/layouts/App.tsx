@@ -7,12 +7,13 @@ import ActivityList from '../../Components/ActivityList';
 import ActivityDetail from '../../Components/ActivityDetails';
 import ActivityForm from '../../Components/ActivityForm';
 import api from '../../api/api';
-
+import {v4 as uuid} from 'uuid';
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [selectedActivity, setSelectedActivity] = useState<Activity | undefined>(undefined);
   const [editMode, setEditMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // call API (index)
   useEffect(() => {
@@ -53,6 +54,37 @@ function App() {
     setSelectedActivity(undefined);
   }
 
+  // Update or Create Activity
+  function handleUpdateOrCreate(activity: Activity) {
+    // Show loading
+    setIsLoading(true);
+
+    if(activity.id) {
+      // Call API (update) 
+      api.update(activity).then(() => {
+        // Update activity if success, else remain unchanged
+        const updatedActivities = activities.map((oldActivity) => 
+          activity.id === oldActivity.id ? {...oldActivity, ...activity} : oldActivity
+        );
+
+        setActivities(updatedActivities);
+      })
+    } else {
+      // Assign ID
+      activity.id = uuid();
+      
+      // Call API (create) 
+      api.create(activity).then(() => {
+        setActivities([...activities, activity]); // Append new activity
+      })
+    }
+
+    setIsLoading(false);  // Stop show loading
+    setEditMode(false);   // Close edit form
+  }
+
+  
+
   return (
     <>
       <Navbar openEdit={handleOpenEdit} />
@@ -79,7 +111,9 @@ function App() {
             {editMode && 
             <ActivityForm 
               activity={selectedActivity} 
+              updateOrCreate={handleUpdateOrCreate}
               closeEdit={handleCloseEdit}
+              isLoading={isLoading}
             />}
             
           </div>

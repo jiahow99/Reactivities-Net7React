@@ -4,9 +4,11 @@ import { Activity } from '../app/models/Activity';
 interface Props {
     activity: Activity | undefined;
     closeEdit: () => void;
+    updateOrCreate: (activity: Activity) => void;
+    isLoading: Boolean;
 }
 
-export default function ActivityForm({activity: selectedActivity, closeEdit}: Props) {
+export default function ActivityForm({activity: selectedActivity, closeEdit, updateOrCreate, isLoading}: Props) {
 
     // Activity details
     const initialState = selectedActivity ?? {
@@ -30,8 +32,7 @@ export default function ActivityForm({activity: selectedActivity, closeEdit}: Pr
     // Submit
     function submit(event: React.FormEvent){
         event.preventDefault();
-        console.log(activity);
-        
+        updateOrCreate(activity);
     }
 
     return (
@@ -60,7 +61,11 @@ export default function ActivityForm({activity: selectedActivity, closeEdit}: Pr
                 onChange={updateForm}
             />
             
-            <button type='submit' className='w-full py-2 btn-secondary'>Submit</button>
+            <button type='submit' className='w-full py-2 btn-secondary font-semibold tracking-wider'>
+                Submit
+                {isLoading && <i className="fa-solid fa-circle-notch animate-spin ml-5" /> }
+                
+            </button>
         </form>
         </>
     )
