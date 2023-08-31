@@ -7,6 +7,7 @@ import ActivityDetail from '../../Components/ActivityDetails';
 import ActivityForm from '../../Components/ActivityForm';
 import api from '../../api/api';
 import {v4 as uuid} from 'uuid';
+import { useStore } from '../stores/store';
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -82,9 +83,9 @@ function App() {
     setEditMode(false);   // Close edit form
   }
 
+  // Delete activity
   function handleDelete(id: string) {
     setIsLoading(true); // Show loading
-
     // Call API (delete)
     api.delete(id).then(() => {
       setActivities([...activities.filter(x => x.id !== id)]);
@@ -92,6 +93,7 @@ function App() {
     })
   }
 
+  const {activityStore} = useStore();
   
   return (
     <>
@@ -99,6 +101,7 @@ function App() {
 
       <div className='w-9/12 mx-auto flex gap-10 pt-10'>
           <div className='w-7/12 flex flex-col bg-[#7F5A83]'>
+            <h2>{activityStore.title}</h2>
             {/* Activity List */}
             <ActivityList 
               activities={activities} 
