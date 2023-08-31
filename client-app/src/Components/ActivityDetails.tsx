@@ -1,13 +1,15 @@
 import React from 'react';
-import { Activity } from '../app/models/Activity';
+import { useStore } from '../app/stores/store';
 
-interface Props {
-    activity: Activity;
-    cancelSelectActivity: () => void;
-    openEdit: (id?: string) => void;
-}
 
-export default function ActivityDetail({activity, cancelSelectActivity, openEdit}: Props) {
+
+export default function ActivityDetail() {
+
+    const {activityStore} = useStore();
+    const {selectedActivity: activity, cancelSelectActivity, openEdit} = activityStore;
+
+    if (!activity) return null ;
+    
     return (
         <div className='w-full bg-[#7F5A83] rounded-lg'>
             <img className='w-full object-cover h-80' src="https://images.unsplash.com/photo-1581417478175-a9ef18f210c2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt='activity_img' />

@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import { Activity } from '../app/models/Activity';
+import { useStore } from '../app/stores/store';
 
 interface Props {
     activities: Activity[];
-    selectActivity: (id: string) => void;
     deleteActivity: (id: string) => void;
-    isLoading: boolean;
 }
 
 
-export default function ActivityList({activities, selectActivity, deleteActivity, isLoading}: Props) {
+export default function ActivityList({activities, deleteActivity}: Props) {
     const [target, setTarget] = useState('');
 
     function handleDelete(id: string) {
         setTarget(id);      // Prevent all activity to show same loading spinner
         deleteActivity(id); // Call API
     };
+
+    const {activityStore} = useStore();
+    const {selectActivity, isLoading} = activityStore;
 
     return (
         <>

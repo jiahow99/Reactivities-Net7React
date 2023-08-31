@@ -1,15 +1,17 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Activity } from '../app/models/Activity';
+import { useStore } from '../app/stores/store';
+import { observer } from "mobx-react-lite";
 
 interface Props {
-    activity: Activity | undefined;
-    closeEdit: () => void;
     updateOrCreate: (activity: Activity) => void;
-    isLoading: Boolean;
 }
 
-export default function ActivityForm({activity: selectedActivity, closeEdit, updateOrCreate, isLoading}: Props) {
 
+export default function ActivityForm({updateOrCreate}: Props) {
+    const {activityStore} = useStore();
+    const {selectedActivity, closeEdit, isLoading} = activityStore;
+    
     // Activity details
     const initialState = selectedActivity ?? {
         id: '',
@@ -34,6 +36,8 @@ export default function ActivityForm({activity: selectedActivity, closeEdit, upd
         event.preventDefault();
         updateOrCreate(activity);
     }
+
+    
 
     return (
         <>
@@ -70,3 +74,5 @@ export default function ActivityForm({activity: selectedActivity, closeEdit, upd
         </>
     )
 }
+
+
