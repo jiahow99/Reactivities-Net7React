@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Activity } from '../app/models/Activity';
 
 interface Props {
     activities: Activity[];
     selectActivity: (id: string) => void;
+    deleteActivity: (id: string) => void;
+    isLoading: boolean;
 }
 
 
-export default function ActivityList({activities, selectActivity}: Props) {
+export default function ActivityList({activities, selectActivity, deleteActivity, isLoading}: Props) {
+    const [target, setTarget] = useState('');
+
+    function handleDelete(id: string) {
+        setTarget(id);      // Prevent all activity to show same loading spinner
+        deleteActivity(id); // Call API
+    };
+
     return (
         <>
             {activities.map(activity => (
@@ -21,7 +30,16 @@ export default function ActivityList({activities, selectActivity}: Props) {
                             <button className='px-4 py-1 h-fit bg-white/50 backdrop-blur-sm rounded-lg text-sm font-semibold'>
                                 { activity.category }
                             </button>
-                            <button onClick={() => selectActivity(activity.id)} className='bg-[#E2A9C6] px-10 py-2 rounded-lg font-semibold text-[#1E3855]'>View</button>
+                            <div>
+                                <button onClick={() => handleDelete(activity.id)} className='btn-secondary px-7 py-2 mr-2'>
+                                    Delete
+                                    {isLoading && target === activity.id &&
+                                    <i className="fa-solid fa-circle-notch animate-spin ml-5" /> }
+                                </button>
+                                <button onClick={() => selectActivity(activity.id)} className='btn-primary px-10 py-2'>
+                                    View
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

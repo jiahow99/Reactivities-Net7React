@@ -31,6 +31,14 @@ p, h1, h2, h3, h4, h5, h6, span, a {
   @apply w-full bg-transparent border-white placeholder:text-gray-300 focus:border-[#E2A9C6] focus:ring-[#E2A9C6] rounded-md text-sm
 }
 
+.btn-primary {
+  @apply bg-tertiary rounded-lg font-semibold text-primary
+}
+
+.btn-primary:hover {
+  @apply text-white
+}
+
 .btn-secondary {
-  @apply border-2 border-[#E2A9C6] hover:bg-[#E2A9C6] duration-200 rounded-lg
+  @apply border-2 border-[#E2A9C6] hover:bg-[#E2A9C6] duration-200 rounded-lg text-white
 }

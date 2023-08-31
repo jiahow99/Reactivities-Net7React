@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Header, List } from 'semantic-ui-react';
 import { Activity } from '../models/Activity';
 import Navbar from '../../Components/Navbar';
 import ActivityList from '../../Components/ActivityList';
@@ -83,8 +82,17 @@ function App() {
     setEditMode(false);   // Close edit form
   }
 
-  
+  function handleDelete(id: string) {
+    setIsLoading(true); // Show loading
 
+    // Call API (delete)
+    api.delete(id).then(() => {
+      setActivities([...activities.filter(x => x.id !== id)]);
+      setIsLoading(false);  // Stop show loading
+    })
+  }
+
+  
   return (
     <>
       <Navbar openEdit={handleOpenEdit} />
@@ -95,6 +103,8 @@ function App() {
             <ActivityList 
               activities={activities} 
               selectActivity={handleSelectActivity}
+              deleteActivity={handleDelete}
+              isLoading={isLoading}
             />
           </div>
 
