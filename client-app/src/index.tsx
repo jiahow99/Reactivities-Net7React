@@ -3,12 +3,18 @@ import ReactDOM from 'react-dom/client';
 import './app/layouts/styles.css';
 import App from './app/layouts/App';
 import reportWebVitals from './reportWebVitals';
+import { StoreContext, store } from './app/stores/store';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <App />
+  <StoreContext.Provider value={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StoreContext.Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
