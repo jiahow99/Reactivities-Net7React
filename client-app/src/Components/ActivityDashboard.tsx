@@ -17,7 +17,7 @@ export default observer(function ActivityDashboard() {
 
     return (
         <div className='w-9/12 mx-auto flex gap-10 pt-10'>
-          <div className='w-7/12 flex flex-col bg-[#7F5A83]'>
+          <div className='w-7/12 flex flex-col '>
             {/* Activity List */}
             <ActivityList />
           </div>

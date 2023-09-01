@@ -13,8 +13,27 @@ class activityStore {
         makeAutoObservable(this);
     }
 
+    // Convert activities:Map to activities:Array
     get activities() {
         return Array.from(this.activitiesRegistry.values());
+    }
+
+    // Get activities by date
+    get activitiesGroupByDate() {
+        // date: Activity[]
+        const groupedData = new Map<string, Activity[]>();
+
+        this.activities.forEach(activity => {
+            const date = activity.date;
+            // If the map dont have the date, initialize an empty array for it
+            if(!groupedData.has(date)) {
+                groupedData.set(date, []);
+            }
+            // Push the activity into their corresponding activity
+            groupedData.get(date)!.push(activity);
+        })
+        // Return an array of entries (date-activities pairs)
+        return Array.from(groupedData.entries());
     }
 
     // Load all activities
