@@ -1,19 +1,23 @@
-import React, { ChangeEvent, useState } from 'react';
-import { Activity } from '../app/models/Activity';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useStore } from '../app/stores/store';
 import { observer } from "mobx-react-lite";
-
-interface Props {
-    updateOrCreate: (activity: Activity) => void;
-}
+import { useNavigate, useParams } from 'react-router-dom';
 
 
-export default function ActivityForm({updateOrCreate}: Props) {
+export default observer(function ActivityForm() {
+
+    // Mobx
     const {activityStore} = useStore();
-    const {selectedActivity, closeEdit, isLoading} = activityStore;
+    const {closeEdit, isLoading, createActivity, updateActivity, loadActivity} = activityStore;
     
-    // Activity details
-    const initialState = selectedActivity ?? {
+    // Use params
+    const {id} = useParams();
+
+    // Navigate
+    const navigate = useNavigate();
+
+    // Activity 
+    const [activity, setActivity] = useState({
         id: '',
         title: '',
         date: '',
@@ -21,10 +25,27 @@ export default function ActivityForm({updateOrCreate}: Props) {
         category: '',
         city: '',
         venue: ''
-    }
+    });
 
-    const [activity, setActivity] = useState(initialState);
+    // Fetch activity if edit, else load empty activity
+    useEffect(() => {
+        if (id) {
+            loadActivity(id).then(activity => setActivity(activity!));
+        } 
+        else {
+            setActivity({
+                id: '',
+                title: '',
+                date: '',
+                description: '',
+                category: '',
+                city: '',
+                venue: ''
+            });
+        }
+    }, [id, loadActivity])
 
+    
     // Update value when user input
     function updateForm(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         const {name, value} = event.target;
@@ -34,7 +55,19 @@ export default function ActivityForm({updateOrCreate}: Props) {
     // Submit
     function submit(event: React.FormEvent){
         event.preventDefault();
-        updateOrCreate(activity);
+        try {
+            // Create 
+            if(activity.id.length === 0) {
+                createActivity(activity).then(() => navigate(`/activities/${activity.id}`));
+            }
+            // Update
+            else {
+                updateActivity(activity).then(() => navigate(`/activities/${activity.id}`));
+            }
+        } catch (error) {
+            console.log(error);
+            
+        }               
     }
 
     
@@ -73,6 +106,4 @@ export default function ActivityForm({updateOrCreate}: Props) {
         </form>
         </>
     )
-}
-
-
+})

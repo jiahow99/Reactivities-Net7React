@@ -10,7 +10,7 @@ const response = <T> (response: AxiosResponse<T>) => response.data;
 // Requests
 const requests = {
     get: <T> (url: string) => axios.get<T>(url).then(response),
-    post: <T> (url: string, body: {}) => axios.post<T>(url, body).then(response).catch(err => console.log(err)),
+    post: <T> (url: string, body: {}) => axios.post<T>(url, body).then(response),
     put: <T> (url: string, body: {}) => axios.put<T>(url, body).then(response),
     delete: <T> (url: string) => axios.delete<T>(url).then(response),
 }

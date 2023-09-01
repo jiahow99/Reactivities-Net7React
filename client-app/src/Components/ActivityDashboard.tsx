@@ -1,27 +1,18 @@
 import React, { useEffect } from 'react';
-import activityStore from '../app/stores/ActivityStore';
 import ActivityList from './ActivityList';
-import ActivityForm from './ActivityForm';
-import ActivityDetails from './ActivityDetails';
 import { useStore } from '../app/stores/store';
-import { Activity } from '../app/models/Activity';
 import { observer } from "mobx-react-lite";
 
 
-interface Props {
-    updateOrCreate: (activity: Activity) => void;
-}
-
-
-export default observer(function ActivityDashboard({ updateOrCreate}: Props) {
+export default observer(function ActivityDashboard() {
 
     const {activityStore} = useStore();
-    const { selectedActivity, editMode } = activityStore;
+    const {loadActivities } = activityStore;
     
     // Get all activities
     useEffect(() => {
-        activityStore.loadActivities();
-    },[activityStore]); 
+        loadActivities();
+    },[loadActivities]); 
     
 
     return (
@@ -32,16 +23,7 @@ export default observer(function ActivityDashboard({ updateOrCreate}: Props) {
           </div>
 
           <div className="w-5/12 flex flex-col gap-2">
-            {/* Activity Detail */}
-            { selectedActivity && !editMode &&
-            <ActivityDetails />}
-
-            {/* Activity Form */}
-            {editMode && 
-            <ActivityForm 
-              updateOrCreate={updateOrCreate}
-            />}
-            
+            Filter
           </div>
       </div>
     )

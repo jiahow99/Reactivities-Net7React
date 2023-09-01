@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useStore } from '../app/stores/store';
+import { Link, useParams } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 
 
-
-export default function ActivityDetail() {
+export default observer(function ActivityDetail() {
 
     const {activityStore} = useStore();
-    const {selectedActivity: activity, cancelSelectActivity, openEdit} = activityStore;
+    const {selectedActivity: activity, cancelSelectActivity, loadActivity} = activityStore;
+    
+    // URL parameter
+    const {id} = useParams();
 
-    if (!activity) return null ;
+    // Load activity
+    useEffect(() => {
+        if (id) loadActivity(id);
+    }, [id, loadActivity]);
+
+    if (!activity) return null ;    
     
     return (
         <div className='w-full bg-[#7F5A83] rounded-lg'>
@@ -19,13 +28,13 @@ export default function ActivityDetail() {
                 <p>{activity.venue}, {activity.city}</p>
             </div>
             <div className="flex p-3 gap-1">
-                <button onClick={() => openEdit(activity.id)} className='w-1/2 py-3 btn-secondary'>
+                <Link to={`/edit/${activity.id}`} className='w-1/2 py-3 btn-secondary text-center'>
                     Edit
-                </button>
+                </Link>
                 <button onClick={cancelSelectActivity} className='w-1/2 py-3 border-2 border-white hover:bg-white hover:text-[#E2A9C6] duration-200 rounded-lg'>
                     Cancel
                 </button>
             </div>
         </div>
     )
-}
+})

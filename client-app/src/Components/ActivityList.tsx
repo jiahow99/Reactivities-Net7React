@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStore } from '../app/stores/store';
 import { observer } from "mobx-react-lite";
+import { Link } from 'react-router-dom';
 
 
 export default observer(function ActivityList() {
@@ -10,6 +11,9 @@ export default observer(function ActivityList() {
 
     const [target, setTarget] = useState('');
 
+    useEffect(() => {
+        activityStore.loadActivities();
+    }, [activityStore])
 
     function handleDelete(id: string) {
         setTarget(id);      // Prevent all activity to show same loading spinner
@@ -36,9 +40,9 @@ export default observer(function ActivityList() {
                                     {isLoading && target === activity.id &&
                                     <i className="fa-solid fa-circle-notch animate-spin ml-5" /> }
                                 </button>
-                                <button onClick={() => selectActivity(activity.id)} className='btn-primary px-10 py-2'>
+                                <Link to={`/activities/${activity.id}`} className='btn-primary px-10 py-2'>
                                     View
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
