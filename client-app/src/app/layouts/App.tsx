@@ -76,14 +76,14 @@ function App() {
   }
 
   // Delete activity
-  function handleDelete(id: string) {
-    setIsLoading(true); // Show loading
-    // Call API (delete)
-    api.delete(id).then(() => {
-      setActivities([...activities.filter(x => x.id !== id)]);
-      setIsLoading(false);  // Stop show loading
-    })
-  }
+  // function handleDelete(id: string) {
+  //   setIsLoading(true); // Show loading
+  //   // Call API (delete)
+  //   api.delete(id).then(() => {
+  //     setActivities([...activities.filter(x => x.id !== id)]);
+  //     setIsLoading(false);  // Stop show loading
+  //   })
+  // }
 
   
   return (
@@ -91,7 +91,6 @@ function App() {
       <Navbar />
 
       <ActivityDashboard 
-        deleteActivity={handleDelete}
         updateOrCreate={handleUpdateOrCreate}
       />
 

@@ -1,24 +1,22 @@
 import React, { useState } from 'react';
-import { Activity } from '../app/models/Activity';
 import { useStore } from '../app/stores/store';
-
-interface Props {
-    activities: Activity[];
-    deleteActivity: (id: string) => void;
-}
+import { observer } from "mobx-react-lite";
 
 
-export default function ActivityList({activities, deleteActivity}: Props) {
+export default observer(function ActivityList() {
+
+    const {activityStore} = useStore();
+    const {activities, deleteActivity, selectActivity, isLoading} = activityStore;
+
     const [target, setTarget] = useState('');
+
 
     function handleDelete(id: string) {
         setTarget(id);      // Prevent all activity to show same loading spinner
         deleteActivity(id); // Call API
     };
 
-    const {activityStore} = useStore();
-    const {selectActivity, isLoading} = activityStore;
-
+    
     return (
         <>
             {activities.map(activity => (
@@ -48,4 +46,4 @@ export default function ActivityList({activities, deleteActivity}: Props) {
             ))}
         </>
     )
-}
+})

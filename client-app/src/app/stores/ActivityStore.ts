@@ -1,9 +1,9 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import api from "../../api/api";
 import { Activity } from "../models/Activity";
 
 class activityStore {
-    activities: Activity[] = [];
+    activitiesRegistry = new Map<string, Activity>() ;  // id => Activity
     selectedActivity: Activity | undefined = undefined;
     editMode = false;
     isLoading = false; 
@@ -12,18 +12,25 @@ class activityStore {
         makeAutoObservable(this);
     }
 
+    get activities() {
+        return Array.from(this.activitiesRegistry.values());
+    }
+
     // Load all activities
     loadActivities = async () => {
         this.isLoading = true;
         try {
             // Call API
             const activities = await api.index();
-            // Format date
+
             activities.forEach(activity => {
+                // Format date
                 activity.date = activity.date.split('T')[0];
+                // Set each activity into a Map
+                runInAction(() => {
+                    this.activitiesRegistry.set(activity.id, activity);
+                })
             });
-            // Set store data
-            this.setActivities(activities);
 
         } catch (error) {
             console.log(error);
@@ -31,9 +38,27 @@ class activityStore {
         this.setIsLoading(false);
     }
 
+    // Delete activity
+    deleteActivity = async (id: string) => {
+        // Show loading
+        this.setIsLoading(true); 
+
+        try {
+            // Call API and remove it from Map
+            await api.delete(id);
+            runInAction(() => this.activitiesRegistry.delete(id))
+
+        } catch (error) {
+            console.log(error);
+        }
+
+        // Disable loading
+        this.setIsLoading(false);
+    }
+
     // Select one activity
     selectActivity = (id: string) => {
-        this.selectedActivity = this.activities.find(x => x.id === id);
+        this.selectedActivity = this.activitiesRegistry.get(id);
     }
 
     // Deselect activity
@@ -56,9 +81,6 @@ class activityStore {
         this.isLoading = state;
     }
 
-    setActivities = (activities: Activity[]) => {
-        this.activities = activities;
-    }
 }
 
 export default activityStore;
