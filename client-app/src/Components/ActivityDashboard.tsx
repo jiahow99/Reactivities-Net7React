@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import ActivityList from './ActivityList';
 import { useStore } from '../app/stores/store';
 import { observer } from "mobx-react-lite";
+import Filter from './Filter';
 
 
 export default observer(function ActivityDashboard() {
@@ -23,7 +24,7 @@ export default observer(function ActivityDashboard() {
           </div>
 
           <div className="w-5/12 flex flex-col gap-2">
-            Filter
+            <Filter />
           </div>
       </div>
     )

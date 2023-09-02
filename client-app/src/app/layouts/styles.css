@@ -46,3 +46,20 @@ p, h1, h2, h3, h4, h5, h6, span, a {
 .btn-secondary {
   @apply border-2 border-[#E2A9C6] hover:bg-[#E2A9C6] duration-200 rounded-lg text-white
 }
+
+.react-calendar {
+  border: none !important;
+  color: white !important;
+  width: 100% !important;
+  background-color: #7F5A83 !important;
+}
+
+.react-calendar__month-view__days__day--weekend,
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: rgb(173, 173, 173) !important;
+}
+
+.react-calendar__tile--now {
+  background-color: #E2A9C6 !important;
+  color: black !important;
+}
