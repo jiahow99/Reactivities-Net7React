@@ -12,7 +12,8 @@ function App() {
 
   return (
     <>
-      <Navbar />
+      {location.pathname !== '/' ? <Navbar /> : null}
+      {/* <Navbar /> */}
 
       <Routes>
         <Route path='/' Component={HomePage} />

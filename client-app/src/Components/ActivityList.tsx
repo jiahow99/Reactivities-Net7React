@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 export default observer(function ActivityList() {
 
     const {activityStore} = useStore();
-    const {activities, deleteActivity, selectActivity, isLoading} = activityStore;
+    const {activitiesGroupByDate: activities, deleteActivity, selectActivity, isLoading} = activityStore;
 
     const [target, setTarget] = useState('');
 
@@ -20,34 +20,56 @@ export default observer(function ActivityList() {
         deleteActivity(id); // Call API
     };
 
+    console.log(activities);
+    
+    
     
     return (
         <>
-            {activities.map(activity => (
-                <div className="m-3 pb-5 border-b" key={activity.id}>
-                    <div className='w-full'>
-                        <h2 className='text-xl font-medium'>{ activity.title }</h2>
-                        <p className="text-gray-300 my-2">{ activity.date }</p>
-                        <p>{ activity.description }</p>
-                        <p>{ activity.venue }, { activity.city }</p>
-                        <div className="flex justify-between items-center">
-                            <button className='px-4 py-1 h-fit bg-white/50 backdrop-blur-sm rounded-lg text-sm font-semibold'>
-                                { activity.category }
-                            </button>
-                            <div>
-                                <button onClick={() => handleDelete(activity.id)} className='btn-secondary px-7 py-2 mr-2'>
-                                    Delete
-                                    {isLoading && target === activity.id &&
-                                    <i className="fa-solid fa-circle-notch animate-spin ml-5" /> }
-                                </button>
-                                <Link to={`/activities/${activity.id}`} className='btn-primary px-10 py-2'>
-                                    View
-                                </Link>
+            {activities.map( ([date, groupedActivities]) => (
+                <div key={date}>
+                    <h1 className='text-xl font-medium mt-4 mb-2'>{date}</h1>
+                    
+                    <div className="flex flex-col gap-3">
+                        {groupedActivities.map((activity) => (
+                            <div key={activity.id} className='bg-secondary rounded-lg'>
+                                <div className="flex gap-5 p-3 border-b">
+                                    <img className='w-32 h-32 object-cover rounded-full' src="https://images.unsplash.com/photo-1581391528803-54be77ce23e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="profile" />
+                                    <div>
+                                        <h2 className='text-xl font-medium'>{ activity.title }</h2>
+                                        <p className='mt-2'>Hosted by Bob</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-3 p-3">
+                                    <div>
+                                        <i className="fa-solid fa-clock mr-1"></i>
+                                        { activity.date }
+                                    </div>
+                                    <div>
+                                        <i className="fa-solid fa-location-dot mr-1"></i>
+                                        { activity.venue }
+                                    </div>
+                                </div>
+
+                                <div className="p-3 bg-gray-500">
+                                    Attendies ggoes here
+                                </div>
+
+                                <div className="p-3 flex justify-between">
+                                    <p>{ activity.description }</p>
+                                    <Link to={`/activities/${activity.id}`} className='btn-primary px-10 py-2'>
+                                        View
+                                    </Link>
+                                </div>
+                                
                             </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             ))}
+            
+            
         </>
     )
 })
