@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useStore } from '../app/stores/store';
 import { Link, useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import { format } from 'date-fns';
 
 
 export default observer(function ActivityDetail() {
@@ -18,6 +19,9 @@ export default observer(function ActivityDetail() {
     }, [id, loadActivity]);
 
     if (!activity) return null ;    
+
+    console.log(activity);
+    
     
     return (
         <div className="w-9/12 mx-auto mt-10 flex justify-between">
@@ -31,24 +35,24 @@ export default observer(function ActivityDetail() {
 
                         <div className="img-info absolute bottom-7 left-10 ">
                             <h1 className='text-2xl font-medium'>{ activity.title }</h1>
-                            <p>{ activity.date }</p>
+                                { new Date(activity.date!).toLocaleString() }
                             <p className='mt-2'>Hosted by Bob</p>
                         </div>
                     </div>
-                    <div className="w-full bg-secondary p-3 flex justify-between items-center rounded-b-xl">
+                    <div className="w-full bg-secondary-custom p-3 flex justify-between items-center rounded-b-xl">
                         <div className='flex gap-2'>
                             <button className='btn-primary px-5 py-2'>Join Activity</button>
                             <button className='btn-secondary px-3 py-2'>Cancel Attendance</button>
                         </div>
                         <div>
-                            <button className='px-3 py-2 underline underline-offset-2'>
+                            <Link to={`/edit/${activity.id}`} className='px-3 py-2 underline underline-offset-2' >
                                 Manage Event
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
 
-                <div className="w-full event-info mt-5 bg-secondary rounded-lg shadow-xl">
+                <div className="w-full event-info mt-5 bg-secondary-custom rounded-lg shadow-xl">
                     <div className="flex py-3 border-b-2 ay-300ay-300">
                         <div className="w-1/12 text-center">
                             <i className="fa-solid fa-info"></i>
@@ -63,7 +67,7 @@ export default observer(function ActivityDetail() {
                             <i className="fa-solid fa-calendar-days"></i>
                         </div>
                         <div className="w-9/12">
-                            { activity.date }
+                            { new Date(activity.date!).toLocaleString() }
                         </div>
                     </div>
 
@@ -78,11 +82,11 @@ export default observer(function ActivityDetail() {
                 </div>
 
                 <div className="event-chat w-full mt-5 shadow-xl">
-                    <h1 className="font-medium text-center bg-white/20 backdrop-blur-sm py-2 rounded-t">
+                    <h1 className="font-medium text-center bg-white/20 backdrop-blur-sm py-2 rounded-t m-0">
                         Chat about this event
                     </h1>
 
-                    <div className="chat p-3 bg-secondary flex flex-col gap-3">
+                    <div className="chat p-3 bg-secondary-custom flex flex-col gap-3">
                         <div className="flex gap-5">
                             <div className="profile w-1/12 ">
                                 <img className='w-full aspect-square rounded object-cover' src="https://images.unsplash.com/photo-1517849845537-4d257902454a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1935&q=80" alt="" />
@@ -123,7 +127,7 @@ export default observer(function ActivityDetail() {
 
             <div className="w-4/12">
                 <h1 className='bg-white/20 backdrop-blur-sm py-2 text-center rounded-t-xl'>3 Going</h1>
-                <div className="px-3 bg-secondary rounded-b-xl">
+                <div className="px-3 bg-secondary-custom rounded-b-xl">
                     <div className="flex gap-2 py-3">
                         <div className="w-3/12">
                             <img className='w-full aspect-square object-cover' src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="" />

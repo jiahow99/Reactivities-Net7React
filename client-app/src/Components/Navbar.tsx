@@ -16,10 +16,10 @@ export default function Navbar() {
                     <NavLink to='/' className='text-lg h-fit p-0 m-0 px-5 font-medium'>
                         Home
                     </NavLink>
-                    <NavLink to='/activities' className='text-lg h-fit p-0 m-0 px-5 font-medium'>
+                    <NavLink to='/activities' className='text-lg h-fit p-0 m-0 px-5 font-medium '>
                         Activities
                     </NavLink>
-                    <NavLink to='/create-activity' className='font-medium px-5 py-3 rounded-xl bg-purple-500'>Add Activities</NavLink>
+                    <NavLink to='/create-activity' className='font-medium px-5 py-3 rounded-xl bg-purple-500 text-white'>Add Activities</NavLink>
                 </div>
             </div>
         </nav>

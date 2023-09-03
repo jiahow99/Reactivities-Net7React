@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useStore } from '../app/stores/store';
 import { observer } from "mobx-react-lite";
 import { Link } from 'react-router-dom';
+import { format } from 'date-fns';
 
 
 export default observer(function ActivityList() {
@@ -18,21 +19,18 @@ export default observer(function ActivityList() {
     function handleDelete(id: string) {
         setTarget(id);      // Prevent all activity to show same loading spinner
         deleteActivity(id); // Call API
-    };
-
-    console.log(activities);
-    
+    };    
     
     
     return (
         <>
             {activities.map( ([date, groupedActivities]) => (
-                <div key={date}>
-                    <h1 className='text-xl font-medium mt-4 mb-2'>{date}</h1>
+                <div key={date} className='mt-10'>
+                    <h1 className='text-xl font-medium mb-2'>{date}</h1>
                     
                     <div className="flex flex-col gap-3">
                         {groupedActivities.map((activity) => (
-                            <div key={activity.id} className='bg-secondary rounded-lg'>
+                            <div key={activity.id} className='bg-secondary-custom rounded-lg'>
                                 <div className="flex gap-5 p-3 border-b">
                                     <img className='w-32 h-32 object-cover rounded-full' src="https://images.unsplash.com/photo-1581391528803-54be77ce23e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="profile" />
                                     <div>
@@ -44,7 +42,7 @@ export default observer(function ActivityList() {
                                 <div className="flex gap-3 p-3">
                                     <div>
                                         <i className="fa-solid fa-clock mr-1"></i>
-                                        { activity.date }
+                                        { format(activity.date!, 'dd MMM yyyy h:mm aa') }
                                     </div>
                                     <div>
                                         <i className="fa-solid fa-location-dot mr-1"></i>

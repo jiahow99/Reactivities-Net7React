@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 import api from "../../api/api";
 import { Activity } from "../models/Activity";
 import {v4 as uuid} from 'uuid';
+import { format } from "date-fns";
 
 class activityStore {
     activitiesRegistry = new Map<string, Activity>() ;  // id => Activity
@@ -24,7 +25,7 @@ class activityStore {
         const groupedData = new Map<string, Activity[]>();
 
         this.activities.forEach(activity => {
-            const date = activity.date;
+            const date = format(activity.date!, 'dd MMM yyyy');
             // If the map dont have the date, initialize an empty array for it
             if(!groupedData.has(date)) {
                 groupedData.set(date, []);
@@ -32,8 +33,16 @@ class activityStore {
             // Push the activity into their corresponding activity
             groupedData.get(date)!.push(activity);
         })
-        // Return an array of entries (date-activities pairs)
-        return Array.from(groupedData.entries());
+
+        // Sort the array by date
+        const sortedData = Array.from(groupedData.entries()).sort((a, b) => {
+            const dateA = new Date(a[0]).getTime();
+            const dateB = new Date(b[0]).getTime();
+            return dateB - dateA; // Sort in descending order
+        });
+
+        // Return sorted date
+        return sortedData;
     }
 
     // Load all activities
@@ -45,7 +54,7 @@ class activityStore {
 
             activities.forEach(activity => {
                 // Format date
-                activity.date = activity.date.split('T')[0];
+                activity.date = new Date(activity.date!);
                 // Set each activity into a Map
                 runInAction(() => {
                     this.activitiesRegistry.set(activity.id, activity);
