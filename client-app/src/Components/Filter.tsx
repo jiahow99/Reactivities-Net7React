@@ -6,7 +6,7 @@ import 'react-calendar/dist/Calendar.css';
 export default function Filter() {
     return (
         <div className='w-full'>
-            <div className="w-full bg-secondary rounded-md font-medium">
+            <div className="w-full bg-secondary-custom rounded-md font-medium">
                 <h1 className='p-3 border-b'>
                     <i className="fa-solid fa-filter mr-2"></i>
                     Filter

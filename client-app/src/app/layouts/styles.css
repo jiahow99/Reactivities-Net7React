@@ -28,15 +28,31 @@ p, h1, h2, h3, h4, h5, h6, span, a {
 }
 
 .navbar a.active {
-  @apply text-indigo-600 font-bold
+  @apply font-bold
 }
 
+/* Form input */
 .input-field {
-  @apply w-full bg-transparent border-white placeholder:text-gray-300 focus:border-[#E2A9C6] focus:ring-[#E2A9C6] rounded-md text-sm
+  @apply w-full px-3 py-2 font-medium rounded-md duration-300 outline-none border-2 
+}
+.input-field::placeholder {
+  @apply text-gray-200
+}
+.input-field:focus {
+  @apply border-2 border-tertiary-custom ring-tertiary-custom bg-transparent
+} 
+.ui.dropdown,
+.ui.dropdown .menu {
+  width: 30%;
+}
+.react-datepicker-wrapper {
+  width: 100%;
 }
 
+
+/* Buttons */
 .btn-primary {
-  @apply bg-tertiary rounded-lg font-semibold text-primary
+  @apply bg-tertiary-custom rounded-lg font-semibold text-primary-custom text-lg
 }
 
 .btn-primary:hover {
@@ -47,6 +63,8 @@ p, h1, h2, h3, h4, h5, h6, span, a {
   @apply border-2 border-[#E2A9C6] hover:bg-[#E2A9C6] duration-200 rounded-lg text-white
 }
 
+
+/* Calendar */
 .react-calendar {
   border: none !important;
   color: white !important;

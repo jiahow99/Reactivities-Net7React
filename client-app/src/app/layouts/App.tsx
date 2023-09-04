@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from '../../Components/Navbar';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import HomePage from '../pages/home/HomePage';
@@ -9,11 +9,11 @@ import ActivityDetail from '../../Components/ActivityDetails';
 
 function App() { 
   const location = useLocation();
-
+  
   return (
     <>
       {location.pathname !== '/' ? <Navbar /> : null}
-      {/* <Navbar /> */}
+      
 
       <Routes>
         <Route path='/' Component={HomePage} />
