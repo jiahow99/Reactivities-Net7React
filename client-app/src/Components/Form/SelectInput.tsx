@@ -1,7 +1,7 @@
 import { useField } from 'formik';
-import React, { useEffect } from 'react';
-import { Select, initTE } from "tw-elements";
+import React, { useEffect, useRef } from 'react';
 import { categoryOptions } from '../../app/options/CategoryOptions';
+import { Select, initTE } from "tw-elements";
 
 
 interface Props {
@@ -12,15 +12,21 @@ interface Props {
 }
 
 export default function SelectInput(props: Props) {
-    initTE({ Select });
-    const [field, meta, helpers] = useField(props);   
-          
+    const [field, meta, helpers] = useField(props);
+    
+    useEffect(() => {
+        // Initialize TW Select if havent initialized yet
+        if(!Select.getInstance(document.getElementById('category'))) {
+            const category = new Select(document.getElementById("category"));
+        }
+    }, []);     
+    
+    
     return (
         <select 
             id='category'
             data-te-select-init 
             data-te-select-clear-button="true"
-            // data-te-selectplaceholder="Choose a category"
             {...props} 
             {...field}
         >

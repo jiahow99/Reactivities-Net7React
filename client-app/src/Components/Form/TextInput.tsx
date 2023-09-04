@@ -17,6 +17,7 @@ export default function TextInput(props: Props) {
                 className={`input-field ${meta.value ? 'bg-transparent border-2 border-tertiary-custom' : 'bg-gray-400 border-transparent' }`} 
                 {...field} 
                 {...props} 
+                value={meta.value || ''}
             />
 
             { meta.touched && meta.error ? (

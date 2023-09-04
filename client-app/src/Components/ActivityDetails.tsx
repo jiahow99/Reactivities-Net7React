@@ -19,8 +19,6 @@ export default observer(function ActivityDetail() {
     }, [id, loadActivity]);
 
     if (!activity) return null ;    
-
-    console.log(activity);
     
     
     return (
@@ -57,8 +55,8 @@ export default observer(function ActivityDetail() {
                         <div className="w-1/12 text-center">
                             <i className="fa-solid fa-info"></i>
                         </div>
-                        <div className="w-9/12">
-                            Test
+                        <div className="w-9/12 capitalize">
+                            { activity.category }
                         </div>
                     </div>
 

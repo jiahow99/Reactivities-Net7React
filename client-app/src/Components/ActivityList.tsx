@@ -42,7 +42,7 @@ export default observer(function ActivityList() {
                                 <div className="flex gap-3 p-3">
                                     <div>
                                         <i className="fa-solid fa-clock mr-1"></i>
-                                        { format(activity.date!, 'dd MMM yyyy h:mm aa') }
+                                        { activity.date!.toLocaleString() }
                                     </div>
                                     <div>
                                         <i className="fa-solid fa-location-dot mr-1"></i>

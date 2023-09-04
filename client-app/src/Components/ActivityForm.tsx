@@ -48,9 +48,8 @@ export default observer(function ActivityForm() {
     // Fetch activity if edit, else load empty activity
     useEffect(() => {
         if (id) {
-            loadActivity(id).then(activity => setActivity(activity!));
-        } 
-        else {
+            loadActivity(id).then(activity => setActivity(activity!));  
+        } else {
             setActivity({
                 id: '',
                 title: '',
@@ -110,7 +109,12 @@ export default observer(function ActivityForm() {
                         
                         <button 
                             type='submit' 
-                            className={`w-full py-2 rounded-lg font-semibold tracking-wider ${dirty && isValid && getFieldProps('category').value !== 'null' ? 'bg-tertiary-custom' : 'bg-gray-500'} `}
+                            className={
+                                `w-full py-2 rounded-lg font-semibold tracking-wider duration-300 border-2 outline-none border-transparent
+                                ${dirty && isValid && getFieldProps('category').value !== 'null' 
+                                    ? 'bg-tertiary-custom hover:border-tertiary-custom hover:bg-transparent' 
+                                    : 'bg-gray-500 '} `
+                            }
                             disabled={!dirty || !isValid || getFieldProps('category').value === 'null'}
                         >
                             Submit

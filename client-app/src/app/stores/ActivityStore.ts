@@ -70,7 +70,7 @@ class activityStore {
     // Load single activity
     loadActivity = async (id: string) => {
         let activity = this.getActivity(id);
-
+        
         if(activity) {
             // If activity found
             this.setActivity(activity);
