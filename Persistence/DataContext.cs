@@ -17,5 +17,16 @@ namespace Persistence
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Configure the default value for the Bio property
+            modelBuilder.Entity<AppUser>()
+                .Property(u => u.Bio)
+                .HasDefaultValue("No bio available")
+                .IsRequired(false);
+        }
+
     }
 }
