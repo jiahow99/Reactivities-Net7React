@@ -3,16 +3,20 @@ import './login.css';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../../app/stores/store';
+import { useNavigate } from 'react-router-dom';
 
 export default observer(function HomePage() {
     const {userStore} = useStore();
+    const {login} = userStore;
+    const navigate = useNavigate();
 
     return (
         <div className="login-box">
             <Formik 
                 initialValues={{email: '', password: ''}}
                 onSubmit={(values, {setErrors, setFieldError}) => 
-                    userStore.login(values)
+                    login(values)
+                        .then(() => navigate('/activities'))
                         .catch(error => setFieldError('email', error.response.data))
                     }
             >

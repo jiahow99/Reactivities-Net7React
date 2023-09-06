@@ -1,9 +1,12 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { Activity } from "../app/models/Activity";
 import { User, UserFormValues } from "../app/models/User";
+import { useNavigate } from "react-router-dom";
+
+
 
 // Base URL (API)
-axios.defaults.baseURL = 'http://localhost:5000/api'
+axios.defaults.baseURL = 'http://localhost:5000/api';
 
 // Get response.data
 const response = <T> (response: AxiosResponse<T>) => response.data;
