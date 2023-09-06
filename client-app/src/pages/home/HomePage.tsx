@@ -19,6 +19,9 @@ export default function HomePage() {
                     <h1>Welcome to</h1>
                     <h1 className='font-bold'>Reactivities</h1>
                 </div>
+                <Link to='/login' className='btn-secondary px-5 py-1 text-xl mt-5 '>
+                    Login
+                </Link>
                 <Link to='/activities' className='btn-secondary px-5 py-1 text-xl mt-5 '>
                     Take me to Activities
                 </Link>
