@@ -7,7 +7,7 @@ const Spline = React.lazy(() => import('@splinetool/react-spline'));
 
 
 export default function HomePage() {
-    const {userStore} = useStore();
+    const {userStore, modalStore} = useStore();
     const {isLoggedIn} = userStore;
 
     return (
@@ -23,9 +23,9 @@ export default function HomePage() {
                 </div>
                 {!isLoggedIn ? 
                 (
-                    <Link to='/login' className='btn-secondary px-5 py-1 text-xl mt-5 '>
+                    <button onClick={() => modalStore.openModal()} className='btn-secondary px-5 py-1 text-xl mt-5 '>
                         Login
-                    </Link>
+                    </button>
                 ) : 
                 (
                     <Link to='/activities' className='btn-secondary px-5 py-1 text-xl mt-5 '>
