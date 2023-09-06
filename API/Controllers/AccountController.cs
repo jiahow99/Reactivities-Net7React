@@ -37,7 +37,7 @@ namespace API.Controllers
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
             // No such email
-            if (user == null) return Unauthorized();
+            if (user == null) return Unauthorized("No such email");
 
             // Attempt login
             var loginResult = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
@@ -48,7 +48,7 @@ namespace API.Controllers
             }
 
             // Return 401 unauthorized if pwd not match
-            return Unauthorized();
+            return Unauthorized("Password not match");
         }
 
         [AllowAnonymous]

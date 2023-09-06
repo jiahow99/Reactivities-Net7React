@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import api from "../../api/api";
+import { ActivityAPI } from "../../api/api";
 import { Activity } from "../models/Activity";
 import {v4 as uuid} from 'uuid';
 import { format } from "date-fns";
@@ -50,7 +50,7 @@ class activityStore {
         this.isLoading = true;
         try {
             // Call API
-            const activities = await api.index();
+            const activities = await ActivityAPI.index();
 
             activities.forEach(activity => {
                 // Format date
@@ -80,7 +80,7 @@ class activityStore {
             // Else call API
             try {
                 // Call API and set the activity
-                activity = await api.show(id);
+                activity = await ActivityAPI.show(id);
                 this.setActivity(activity);
 
             } catch (error) {
@@ -96,7 +96,7 @@ class activityStore {
 
         try {
             // Call API and remove it from Map
-            await api.delete(id);
+            await ActivityAPI.delete(id);
             runInAction(() => this.activitiesRegistry.delete(id))
 
         } catch (error) {
@@ -113,7 +113,7 @@ class activityStore {
             // New id
             activity.id = uuid();
             // Call API & Add activity into "activitiesRegistry"
-            await api.create(activity);
+            await ActivityAPI.create(activity);
             runInAction(() => this.activitiesRegistry.set(activity.id, activity));
 
         } catch (error) {
@@ -125,7 +125,7 @@ class activityStore {
     updateActivity = async (activity: Activity) => {
         try {
             // Call API & Update activity in "activitiesRegistry"
-            await api.update(activity);
+            await ActivityAPI.update(activity);
             runInAction(() => this.activitiesRegistry.set(activity.id, activity));
 
         } catch (error) {
