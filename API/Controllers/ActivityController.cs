@@ -18,7 +18,7 @@ namespace API.Controllers
         // Index
         [HttpGet]   // api/activity
         [AllowAnonymous]
-        public async Task<ActionResult<List<Activity>>> GetActivities()
+        public async Task<ActionResult<List<ActivityDto>>> GetActivities()
         {
             return await Mediator.Send(new List.Query());
         }

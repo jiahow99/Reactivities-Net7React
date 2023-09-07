@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Activities;
 using Application.Core;
+using Application.Interfaces;
+using Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -26,7 +28,9 @@ namespace API.Extensions
             services.AddMediatR(typeof(List.Handler).Assembly);
             // Auto Mapper
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
-
+            // User Accessor
+            services.AddScoped<IUserAccessor, UserAccessor>();
+            
             return services;
         }
     }
