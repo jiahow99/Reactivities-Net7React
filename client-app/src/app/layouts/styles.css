@@ -81,3 +81,28 @@ p, h1, h2, h3, h4, h5, h6, span, a {
   background-color: #E2A9C6 !important;
   color: black !important;
 }
+
+
+/* CSS classes for fade-in from above */
+.fade-enter {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
+
+/* CSS classes for fade-out to above */
+.fade-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transform: translateY(-100%);
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+}

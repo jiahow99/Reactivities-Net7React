@@ -2,13 +2,12 @@ import React, { useEffect } from 'react';
 import { useStore } from '../app/stores/store';
 import { Link, useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import { format } from 'date-fns';
 
 
 export default observer(function ActivityDetail() {
 
     const {activityStore} = useStore();
-    const {selectedActivity: activity, cancelSelectActivity, loadActivity} = activityStore;
+    const {selectedActivity: activity, loadActivity} = activityStore;
     
     // URL parameter
     const {id} = useParams();

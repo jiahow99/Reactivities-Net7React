@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Activities;
 using Domain;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace API.Controllers
     {
         // Index
         [HttpGet]   // api/activity
+        [AllowAnonymous]
         public async Task<ActionResult<List<Activity>>> GetActivities()
         {
             return await Mediator.Send(new List.Query());
@@ -23,6 +25,7 @@ namespace API.Controllers
 
         // Show
         [HttpGet("{id}")]   // api/activity/{id}
+        [Authorize]
         public async Task<IActionResult> GetActivity(Guid id)
         {
             var result = await Mediator.Send(new Details.Query{Id = id});
