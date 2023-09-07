@@ -17,6 +17,13 @@ export default class UserStore {
         return !!this.user;
     }
 
+    // Get user's "username" if "displayname" is not set 
+    get username() {   
+        if(!this.user?.displayName || this.user?.displayName.length === 0) {
+            return this.user?.username;
+        }
+    }
+
     // Login user
     login = async (values: UserFormValues) => {
         try {

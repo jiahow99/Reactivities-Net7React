@@ -6,12 +6,13 @@ import { useStore } from '../../app/stores/store';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { AxiosError } from 'axios';
+import RegisterErrors from '../../Components/Form/RegisterErrors';
 
 export default observer(function HomePage() {
     const {userStore, modalStore} = useStore();
     const {login, register} = userStore;
 
-    const [mode, setMode] = useState('register');
+    const [mode, setMode] = useState<string>('login');
 
     const navigate = useNavigate();
 
@@ -21,7 +22,7 @@ export default observer(function HomePage() {
         password: '',
         confirmPassword: '',
         displayName: '',
-        error: null,
+        apiError: null,
     };
 
     const registerValidation = Yup.object({
@@ -47,13 +48,13 @@ export default observer(function HomePage() {
                 <h1 className='text-center text-2xl font-medium mb-10'>Login</h1>
                 <Formik 
                     initialValues={{email: '', password: ''}}
-                    onSubmit={(values, {setErrors, setFieldError}) => 
+                    onSubmit={(values, {setFieldError}) => 
                         login(values)
                             .then(() => navigate('/activities'))
                             .catch(error => setFieldError('email', error.response.data))
                         }
                 >
-                    {({isSubmitting, errors}) => (
+                    {({isSubmitting, errors, isValid, dirty,}) => (
                         <Form>
                             <div className="user-box">
                                 <Field type="email" name='email' required className='focus:ring-0' />
@@ -67,7 +68,7 @@ export default observer(function HomePage() {
                                 **<ErrorMessage name="email" />
                             </p>}
                             <center>
-                                <button type='submit' className='px-10 py-3'>
+                                <button type='submit' className='px-10 py-3' disabled={!isValid && !dirty}>
                                         SEND
                                     <span></span>
                                     {isSubmitting && <i className="fa-solid fa-circle-notch ml-2 animate-spin"></i>}
@@ -76,6 +77,14 @@ export default observer(function HomePage() {
                         </Form>
                     )}
                 </Formik>
+
+                <div className="flex justify-end items-center my-2 text-sm">
+                    <p>Dont have an account ? 
+                        <span onClick={() => setMode('register')} className='underline ml-2 text-tertiary-custom cursor-pointer'>
+                            Register
+                        </span>
+                    </p>
+                </div>
             </div>}
             
 
@@ -88,10 +97,10 @@ export default observer(function HomePage() {
                 onSubmit={(values, {setErrors, setFieldError}) => 
                     register(values)
                         .then(() => navigate('/activities'))
-                        .catch(error => setFieldError('error', error.response.data))
+                        .catch(error => setErrors({apiError: error.response.data.errors}))
                     }
             >
-                {({isSubmitting, errors}) => (
+                {({isSubmitting, isValid, dirty}) => (
                     <Form>
                         <div className="user-box">
                             <Field type="text" name='username' required className='focus:ring-0' />
@@ -132,9 +141,12 @@ export default observer(function HomePage() {
                         <p className="text-sm text-red-400">
                             <ErrorMessage name="displayName" />
                         </p>
+
+                        <ErrorMessage name="apiError" render={(msg: any) => <RegisterErrors message={msg} />} />
                         
+
                         <center>
-                            <button type='submit' className='px-10 py-3'>
+                            <button type='submit' className='px-10 py-3' disabled={!isValid && !dirty}>
                                     SEND
                                 <span></span>
                                 {isSubmitting && <i className="fa-solid fa-circle-notch ml-2 animate-spin"></i>}
@@ -143,6 +155,14 @@ export default observer(function HomePage() {
                     </Form>
                 )}
             </Formik>
+
+            <div className="flex justify-end items-center my-2 text-sm">
+                <p>Already have acount ? 
+                    <span onClick={() => setMode('login')} className='underline ml-2 text-tertiary-custom cursor-pointer'>
+                        Login
+                    </span>
+                </p>
+            </div>
         </div>}
             
         </div>
