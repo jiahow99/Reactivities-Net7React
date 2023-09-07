@@ -57,5 +57,12 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Delete.Command {Id = id}));
         }
+
+        // Edit attendance
+        [HttpPost("{id}/attendance")]
+        public async Task<IActionResult> UpdateAttendance(Guid id)
+        {
+            return HandleResult(await Mediator.Send(new UpdateAttendance.Command {Id = id}));
+        }
     }
 }
