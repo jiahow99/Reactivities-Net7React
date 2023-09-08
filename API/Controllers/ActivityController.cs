@@ -43,6 +43,7 @@ namespace API.Controllers
         }
 
         // Edit
+        [Authorize(Policy = "IsHostPolicy")]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditActivity(Guid id, Activity activity)
         {
@@ -52,6 +53,7 @@ namespace API.Controllers
         }
 
         // Delete
+        [Authorize(Policy = "IsHostPolicy")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteActivity(Guid id)
         {
@@ -65,4 +67,4 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new UpdateAttendance.Command {Id = id}));
         }
     }
-}
+}   
