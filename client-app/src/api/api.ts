@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { Activity } from "../app/models/Activity";
+import { Activity, ActivityFormValues } from "../app/models/Activity";
 import { User, UserFormValues } from "../app/models/User";
 import { useNavigate } from "react-router-dom";
 import { store } from "../app/stores/store";
@@ -31,9 +31,10 @@ const requests = {
 const ActivityAPI = {
     index: () => requests.get<Activity[]>('/activity'),
     show: (id: string) => requests.get<Activity>(`/activity/${id}`),
-    create: (activity: Activity) => requests.post<void>('/activity', activity),
-    update: (activity: Activity) => requests.put<void>(`/activity/${activity.id}`, activity),
+    create: (activity: ActivityFormValues) => requests.post<void>('/activity', activity),
+    update: (activity: ActivityFormValues) => requests.put<void>(`/activity/${activity.id}`, activity),
     delete: (id: string) => requests.delete<void>(`/activity/${id}`),
+    attend: (id: string) => requests.post<void>(`/activity/${id}/attendance`, {}),
 }
 
 const AccountAPI = {

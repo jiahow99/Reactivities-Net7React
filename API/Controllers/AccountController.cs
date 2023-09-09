@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -34,7 +35,8 @@ namespace API.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             // Find email in db
-            var user = await _userManager.FindByEmailAsync(loginDto.Email);
+            var user = await _userManager.Users.Include(x => x.Photos)
+                .SingleOrDefaultAsync(x => x.Email == loginDto.Email);
 
             // No such email
             if (user == null) return Unauthorized("No such email");
@@ -91,7 +93,8 @@ namespace API.Controllers
         public async Task<UserDto> GetCurrentUser()
         {
             // Get user by "email in token"
-            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+            var user = await _userManager.Users.Include(x => x.Photos)
+                .FirstOrDefaultAsync(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
 
             return createUserDto(user, false);
         }
@@ -100,9 +103,10 @@ namespace API.Controllers
         {
             var userDto = new UserDto {
                 DisplayName = user.DisplayName,
-                Image = null,
+                Image = user.Photos?.FirstOrDefault(x => x.IsMain).Url,
                 Username = user.UserName,
             };
+
 
             if (createToken)
             {

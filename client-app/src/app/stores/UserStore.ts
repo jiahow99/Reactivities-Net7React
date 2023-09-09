@@ -2,7 +2,6 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { User, UserFormValues } from "../models/User";
 import { AccountAPI } from "../../api/api";
 import { store } from "./store";
-import { useNavigate } from "react-router-dom";
 
 
 export default class UserStore {
@@ -22,6 +21,8 @@ export default class UserStore {
         if(!this.user?.displayName || this.user?.displayName.length === 0) {
             return this.user?.username;
         }
+
+        return this.user.displayName;
     }
 
     // Login user
@@ -61,8 +62,12 @@ export default class UserStore {
         try {
             const user = await AccountAPI.current();
             runInAction(() => this.user = user);
+            return user;
         } catch (error) {
             console.log(error);
         }
+
+        
     }
+
 }

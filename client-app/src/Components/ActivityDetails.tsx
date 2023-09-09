@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import { useStore } from '../app/stores/store';
 import { Link, useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import DetailSidebar from './Activity/Detail/DetailSidebar';
 
 
 export default observer(function ActivityDetail() {
 
     const {activityStore} = useStore();
-    const {selectedActivity: activity, loadActivity} = activityStore;
+    const {selectedActivity: activity, loadActivity, updateAttendance, isLoading} = activityStore;
     
     // URL parameter
     const {id} = useParams();
@@ -18,6 +19,8 @@ export default observer(function ActivityDetail() {
     }, [id, loadActivity]);
 
     if (!activity) return null ;    
+        
+    console.log(activity);
     
     
     return (
@@ -33,18 +36,28 @@ export default observer(function ActivityDetail() {
                         <div className="img-info absolute bottom-7 left-10 ">
                             <h1 className='text-2xl font-medium'>{ activity.title }</h1>
                                 { new Date(activity.date!).toLocaleString() }
-                            <p className='mt-2'>Hosted by Bob</p>
+                            <p className='mt-2 capitalize'>Hosted by { activity.host?.username }</p>
                         </div>
                     </div>
                     <div className="w-full bg-secondary-custom p-3 flex justify-between items-center rounded-b-xl">
                         <div className='flex gap-2'>
-                            <button className='btn-primary px-5 py-2'>Join Activity</button>
-                            <button className='btn-secondary px-3 py-2'>Cancel Attendance</button>
+                            {!activity.isGoing && !activity.isHost && 
+                                <button onClick={updateAttendance} className='btn-secondary px-5 py-2'>Join Activity 
+                                    {isLoading && <i className="fa-solid fa-circle-notch animate-spin"></i>}
+                                </button>
+                            }
+                            {activity.isGoing && !activity.isHost && 
+                                <button onClick={updateAttendance} className='btn-primary px-3 py-2'>Cancel Attendance 
+                                    {isLoading && <i className="fa-solid fa-circle-notch animate-spin"></i>}
+                                </button>
+                            }
                         </div>
                         <div>
+                            {activity.isHost && 
                             <Link to={`/edit/${activity.id}`} className='px-3 py-2 underline underline-offset-2' >
                                 Manage Event
                             </Link>
+                            }
                         </div>
                     </div>
                 </div>
@@ -122,38 +135,7 @@ export default observer(function ActivityDetail() {
                 </div>
             </div>
 
-            <div className="w-4/12">
-                <h1 className='bg-white/20 backdrop-blur-sm py-2 text-center rounded-t-xl'>3 Going</h1>
-                <div className="px-3 bg-secondary-custom rounded-b-xl">
-                    <div className="flex gap-2 py-3">
-                        <div className="w-3/12">
-                            <img className='w-full aspect-square object-cover' src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="" />
-                        </div>
-                        <div>
-                            <h1 className='font-medium'>Bob</h1>
-                            <p className='text-sm'>Following</p>
-                        </div>
-                    </div>
-                    <div className="flex gap-2 py-3">
-                        <div className="w-3/12">
-                            <img className='w-full aspect-square object-cover' src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="" />
-                        </div>
-                        <div>
-                            <h1 className='font-medium'>Bob</h1>
-                            <p className='text-sm'>Following</p>
-                        </div>
-                    </div>
-                    <div className="flex gap-2 py-3">
-                        <div className="w-3/12">
-                            <img className='w-full aspect-square object-cover' src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="" />
-                        </div>
-                        <div>
-                            <h1 className='font-medium'>Bob</h1>
-                            <p className='text-sm'>Following</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <DetailSidebar attendees={activity.attendees!} hostUsername={activity.hostUsername!} />
         </div>
     )
 })

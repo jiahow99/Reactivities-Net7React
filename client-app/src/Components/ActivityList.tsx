@@ -3,23 +3,19 @@ import { useStore } from '../app/stores/store';
 import { observer } from "mobx-react-lite";
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
+import AttendeesList from './AttendeesList';
 
 
 export default observer(function ActivityList() {
 
     const {activityStore} = useStore();
-    const {activitiesGroupByDate: activities, deleteActivity, selectActivity, isLoading} = activityStore;
-
-    const [target, setTarget] = useState('');
+    const {activitiesGroupByDate: activities} = activityStore;
 
     useEffect(() => {
         activityStore.loadActivities();
     }, [activityStore])
 
-    function handleDelete(id: string) {
-        setTarget(id);      // Prevent all activity to show same loading spinner
-        deleteActivity(id); // Call API
-    };    
+    console.log(activities);
     
     
     return (
@@ -35,7 +31,18 @@ export default observer(function ActivityList() {
                                     <img className='w-32 h-32 object-cover rounded-full' src="https://images.unsplash.com/photo-1581391528803-54be77ce23e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="profile" />
                                     <div>
                                         <h2 className='text-xl font-medium'>{ activity.title }</h2>
-                                        <p className='mt-2'>Hosted by Bob</p>
+                                        <p className='mt-2'>Hosted by { activity.hostUsername }</p> 
+                                        {activity.isHost && 
+                                            <p className='mt-2 w-fit py-1 px-3 rounded-md bg-indigo-500 text-sm'>
+                                                You are hosting this activity
+                                            </p>
+                                        }
+
+                                        {activity.isGoing && !activity.isHost && 
+                                            <p className='mt-2 w-fit py-1 px-3 rounded-md bg-indigo-500 text-sm'>
+                                                You are going this activity
+                                            </p>
+                                        }
                                     </div>
                                 </div>
 
@@ -50,9 +57,7 @@ export default observer(function ActivityList() {
                                     </div>
                                 </div>
 
-                                <div className="p-3 bg-gray-500">
-                                    Attendies ggoes here
-                                </div>
+                                <AttendeesList attendees={activity.attendees!} />
 
                                 <div className="p-3 flex justify-between">
                                     <p>{ activity.description }</p>

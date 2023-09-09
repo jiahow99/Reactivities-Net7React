@@ -17,7 +17,7 @@ export default function UserDropdown() {
     }
     
     return (
-        <div className="flex gap-2 items-center relative group">
+        <div className="flex gap-2 items-center relative group z-40">
             <img src="https://www.seekpng.com/png/detail/966-9665317_placeholder-image-person-jpg.png" className='w-8 h-8 rounded-full object-cover' alt="profile-pic" />
             <p className='font-medium'>{ username }</p>
             <i className="fa-solid fa-sort-down pb-2"></i>

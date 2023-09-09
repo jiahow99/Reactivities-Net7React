@@ -1,8 +1,10 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { ActivityAPI } from "../../api/api";
-import { Activity } from "../models/Activity";
+import { Activity, ActivityFormValues } from "../models/Activity";
 import {v4 as uuid} from 'uuid';
 import { format } from "date-fns";
+import { store } from "./store";
+import { Profile } from "../models/Profile";
 
 class activityStore {
     activitiesRegistry = new Map<string, Activity>() ;  // id => Activity
@@ -12,6 +14,8 @@ class activityStore {
 
     constructor() {
         makeAutoObservable(this);
+        
+        this.loadActivities();
     }
 
     // Convert activities:Map to activities:Array
@@ -56,9 +60,7 @@ class activityStore {
                 // Format date
                 activity.date = new Date(activity.date!);
                 // Set each activity into a Map
-                runInAction(() => {
-                    this.activitiesRegistry.set(activity.id, activity);
-                })
+                this.setActivity(activity);
             });
 
         } catch (error) {
@@ -69,20 +71,19 @@ class activityStore {
 
     // Load single activity
     loadActivity = async (id: string) => {
-        let activity = this.getActivity(id);
+        let activity = this.getActivity(id);        
         
         if(activity) {
             // If activity found
-            this.setActivity(activity);
-            return activity;
+            this.selectedActivity = activity;
         }
         else {
             // Else call API
             try {
                 // Call API and set the activity
                 activity = await ActivityAPI.show(id);
-                this.setActivity(activity);
-
+                this.selectedActivity = activity;
+                return activity;
             } catch (error) {
                 console.log(error);
             }
@@ -108,13 +109,21 @@ class activityStore {
     }
 
     // Create activity
-    createActivity = async (activity: Activity) => {
+    createActivity = async (activity: ActivityFormValues) => {
+        const user = store.userStore.user;
+        const attendee = new Profile(user!);
+        // New id
+        activity.id = uuid();
         try {
-            // New id
-            activity.id = uuid();
             // Call API & Add activity into "activitiesRegistry"
             await ActivityAPI.create(activity);
-            runInAction(() => this.activitiesRegistry.set(activity.id, activity));
+            const newActivity = new Activity(activity);
+            newActivity.hostUsername = user!.username;
+            newActivity.attendees = [attendee];
+            this.setActivity(newActivity);
+            runInAction(() => {
+                this.selectedActivity = newActivity;
+            });
 
         } catch (error) {
             console.log(error);   
@@ -122,12 +131,18 @@ class activityStore {
     }
 
     // Update activity
-    updateActivity = async (activity: Activity) => {
+    updateActivity = async (activity: ActivityFormValues) => {
         try {
             // Call API & Update activity in "activitiesRegistry"
             await ActivityAPI.update(activity);
-            runInAction(() => this.activitiesRegistry.set(activity.id, activity));
-
+            runInAction(() => {
+                // Update activity in registry
+                if(activity.id) {
+                    let updatedActivity = {...this.getActivity(activity.id), ...activity};  
+                    this.activitiesRegistry.set(activity.id, updatedActivity as Activity );
+                    this.selectedActivity = updatedActivity as Activity;
+                }
+            })
         } catch (error) {
             console.log(error);   
         }
@@ -138,8 +153,22 @@ class activityStore {
         return this.activitiesRegistry.get(id);
     }
 
-    setActivity = (activity: Activity) => {
-        this.selectedActivity = activity;
+    // Set activity helper function
+    private setActivity = (activity: Activity) => {
+        
+        const user = store.userStore.user;
+        
+        if (user) {
+            // Check if loggedin user is going to the event
+            activity.isGoing = activity.attendees!.some(attendee =>
+                attendee.username === user.username
+            );
+            // Check is he host
+            activity.isHost = activity.hostUsername === user.username;  
+            // Set its profile to "host" attribute
+            activity.host = activity.attendees?.find(attendee => attendee.username === activity.hostUsername);  
+        }
+        this.activitiesRegistry.set(activity.id, activity);
     }
 
     // Select one activity
@@ -147,24 +176,37 @@ class activityStore {
         this.selectedActivity = this.activitiesRegistry.get(id);
     }
 
-    // Deselect activity
-    cancelSelectActivity = () => {
-        this.selectedActivity = undefined;
-    }
-
-    // Open edit form
-    openEdit = (id?: string) => {
-        id ? this.selectActivity(id) : this.cancelSelectActivity(); 
-        this.editMode = true; 
-    }
-
-    // Close edit form
-    closeEdit = () => {
-        this.editMode = false;
-    }
-
     setIsLoading = (state: boolean) => {
         this.isLoading = state;
+    }
+
+    updateAttendance = async () => {
+        // Set loading
+        this.setIsLoading(true);
+        const user = store.userStore.user;
+
+        try {
+            await ActivityAPI.attend(this.selectedActivity!.id);
+            runInAction(() => {
+                // Cancel join
+                if(this.selectedActivity!.isGoing) {
+                    this.selectedActivity!.attendees = this.selectedActivity?.attendees?.filter(a => a.username !== user?.username);
+                    this.selectedActivity!.isGoing = false;
+                } 
+                // Join event
+                else {
+                    const attendee = new Profile(user!);
+                    this.selectedActivity?.attendees?.push(attendee);   // Add it into attendees
+                    this.selectedActivity!.isGoing = true;  // Set isGoing = true
+                }
+                // Update activity list
+                this.activitiesRegistry.set(this.selectedActivity!.id, this.selectedActivity!);
+            })
+        } catch (error) {
+            console.log(error);
+        } finally {
+            this.setIsLoading(false);
+        }
     }
 
 }

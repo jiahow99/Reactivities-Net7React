@@ -9,30 +9,33 @@ import TextArea from './Form/TextArea';
 import SelectInput from './Form/SelectInput';
 import { categoryOptions } from '../app/options/CategoryOptions';
 import DateInput from './Form/DateInput';
-import { Activity } from '../app/models/Activity';
+import { ActivityFormValues } from '../app/models/Activity';
 
 export default observer(function ActivityForm() {
 
     // Mobx
     const {activityStore} = useStore();
-    const {createActivity, updateActivity, loadActivity} = activityStore;
+    const {selectedActivity, createActivity, updateActivity, loadActivity} = activityStore;
     
     // Use params
     const {id} = useParams();
 
+    // Activity 
+    const [activity, setActivity] = useState<ActivityFormValues>(new ActivityFormValues());
+
+    // Fetch activity if edit, else load empty activity
+    useEffect(() => {
+        if (id) {
+            loadActivity(id).then(() => setActivity(selectedActivity!));  
+        } else {
+            setActivity(new ActivityFormValues());
+        }
+    }, [id, loadActivity, selectedActivity])
+
     // Navigate
     const navigate = useNavigate();
 
-    // Activity 
-    const [activity, setActivity] = useState<Activity>({
-        id: '',
-        title: '',
-        date: null,
-        description: '',
-        category: '',
-        city: '',
-        venue: ''
-    });
+
 
     // Yup validation
     const validationSchema = Yup.object({
@@ -45,30 +48,15 @@ export default observer(function ActivityForm() {
     })
 
 
-    // Fetch activity if edit, else load empty activity
-    useEffect(() => {
-        if (id) {
-            loadActivity(id).then(activity => setActivity(activity!));  
-        } else {
-            setActivity({
-                id: '',
-                title: '',
-                date: null,
-                description: '',
-                category: '',
-                city: '',
-                venue: ''
-            });
-        }
-    }, [id, loadActivity])
+
 
     
 
     // Submit
-    function createSubmit(activity: Activity){                
+    function createSubmit(activity: ActivityFormValues){                
         try {
             // Create 
-            if(activity.id.length === 0) {
+            if(!activity.id) {
                 createActivity(activity).then(() => navigate(`/activities/${activity.id}`));
             }
             // Update
