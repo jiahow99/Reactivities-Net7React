@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect } from 'react';
 import { useStore } from '../app/stores/store';
 import { observer } from "mobx-react-lite";
 import { Link } from 'react-router-dom';
-import { format } from 'date-fns';
 import AttendeesList from './AttendeesList';
 
 
@@ -14,14 +13,12 @@ export default observer(function ActivityList() {
     useEffect(() => {
         activityStore.loadActivities();
     }, [activityStore])
-
-    console.log(activities);
     
     
     return (
         <>
             {activities.map( ([date, groupedActivities]) => (
-                <div key={date} className='mt-10'>
+                <div key={date} >
                     <h1 className='text-xl font-medium mb-2'>{date}</h1>
                     
                     <div className="flex flex-col gap-3">

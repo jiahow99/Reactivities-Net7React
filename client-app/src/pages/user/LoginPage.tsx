@@ -5,7 +5,6 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '../../app/stores/store';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { AxiosError } from 'axios';
 import RegisterErrors from '../../Components/Form/RegisterErrors';
 
 export default observer(function HomePage() {

@@ -46,7 +46,7 @@ namespace API.Controllers
 
             // Return success with user info if pwd match
             if(loginResult.Succeeded) {
-                return createUserDto(user);
+                return CreateUserDto(user);
             }
 
             // Return 401 unauthorized if pwd not match
@@ -82,7 +82,7 @@ namespace API.Controllers
             // Successful
             if (result.Succeeded) 
             {
-                return createUserDto(user);
+                return CreateUserDto(user);
             }
 
             // Failed with message
@@ -96,14 +96,15 @@ namespace API.Controllers
             var user = await _userManager.Users.Include(x => x.Photos)
                 .FirstOrDefaultAsync(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
 
-            return createUserDto(user, false);
+            return CreateUserDto(user, false);
         }
         
-        private UserDto createUserDto(AppUser user, bool createToken = true)
+        private UserDto CreateUserDto(AppUser user, bool createToken = true)
         {
             var userDto = new UserDto {
                 DisplayName = user.DisplayName,
-                Image = user.Photos?.FirstOrDefault(x => x.IsMain).Url,
+                // Image = user.Photos?.FirstOrDefault(x => x.IsMain).Url,
+                Image = user.Photos?.FirstOrDefault(x => x.IsMain)?.Url,
                 Username = user.UserName,
             };
 

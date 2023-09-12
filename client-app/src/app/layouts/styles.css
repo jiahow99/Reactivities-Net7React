@@ -106,3 +106,8 @@ p, h1, h2, h3, h4, h5, h6, span, a {
   transform: translateY(-100%);
   transition: opacity 300ms ease-in, transform 300ms ease-in;
 }
+
+/* MUI Skeleton */
+.css-1hirv1y-MuiSkeleton-root::after {
+  animation-duration: .5s !important;
+}

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Extensions;
 using API.Middleware;
+using API.SIgnalR;
 using Application.Activities;
 using Application.Core;
 using MediatR;
@@ -46,20 +47,11 @@ namespace API
 
                 opt.Filters.Add(new AuthorizeFilter(policy));
             });
-
+            
             services.AddApplicationServices(_config);
+            
             services.AddIdentityServices(_config);
 
-            // Register new CORS
-            services.AddCors(opt => 
-            {
-                opt.AddPolicy("CorsPolicy", policy => 
-                {
-                    policy.AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .WithOrigins("http://localhost:3000");
-                });
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,6 +77,7 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }

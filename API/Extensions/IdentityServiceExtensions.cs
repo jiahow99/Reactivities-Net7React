@@ -26,6 +26,7 @@ namespace API.Extensions
             .AddEntityFrameworkStores<DataContext>()
             .AddSignInManager<SignInManager<AppUser>>();
 
+            // JWT authentication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(opt => 
             {
@@ -36,7 +37,22 @@ namespace API.Extensions
                     ValidateIssuer = false,
                     ValidateAudience = false,
                 };
+                opt.Events = new JwtBearerEvents {
+                    OnMessageReceived = context => {
+                        // Access token in request
+                        var accessToken = context.Request.Query["access_token"];  
+
+                        // If the request is for our path ...
+                        var path = context.HttpContext.Request.Path;  // Url path
+                        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chat"))
+                        {
+                            context.Token = accessToken;  // Manually set bearer token
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
+            
             // Policy (IsHost)
             services.AddAuthorization(opt => {
                 opt.AddPolicy("IsHostPolicy", policy => {
@@ -44,6 +60,7 @@ namespace API.Extensions
                 });
             });
             services.AddTransient<IAuthorizationHandler, IsHostPolicyHandler>();
+
             // Token Service
             services.AddScoped<TokenService>();
 

@@ -26,6 +26,17 @@ namespace API.Extensions
             services.AddDbContext<DataContext>(opt => {
                 opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
             });
+            // Register new CORS
+            services.AddCors(opt => 
+            {
+                opt.AddPolicy("CorsPolicy", policy => 
+                {
+                    policy.AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+                        .WithOrigins("http://localhost:3000");
+                });
+            });
             // Mediator
             services.AddMediatR(typeof(List.Handler).Assembly);
             // Auto Mapper
@@ -36,6 +47,9 @@ namespace API.Extensions
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             // Cloudinary API
             services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
+            // SignalR
+            services.AddSignalR();
+
             return services;
         }
     }

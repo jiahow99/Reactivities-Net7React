@@ -209,6 +209,11 @@ class activityStore {
         }
     }
 
+    // Cancel selected activity
+    cancelSelectedActivity = () => {
+        this.selectedActivity = undefined;
+    }
+
 }
 
 export default activityStore;

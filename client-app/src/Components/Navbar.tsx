@@ -8,7 +8,8 @@ import UserDropdown from './Navbar/UserDropdown';
 
 
 export default observer(function Navbar() {
-    const {userStore} = useStore();
+    const {userStore, modalStore} = useStore();
+    const {openModal} = modalStore;
     const {user, isLoggedIn} = userStore;
 
     const location = useLocation();    
@@ -39,7 +40,7 @@ export default observer(function Navbar() {
                     {isLoggedIn && user && <UserDropdown />}
                     
                     {!isLoggedIn && !user && pathname !== '/login' && (
-                        <Link to='/login' className='px-10 py-2 btn-secondary font-medium'>Login</Link>
+                        <button onClick={openModal} className='px-10 py-2 btn-secondary font-medium'>Login</button>
                     )}
                     
                 </div>

@@ -3,12 +3,14 @@ import { useStore } from '../app/stores/store';
 import { Link, useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import DetailSidebar from './Activity/Detail/DetailSidebar';
+import Chat from './Activity/Detail/Chat';
 
 
 export default observer(function ActivityDetail() {
 
     const {activityStore} = useStore();
-    const {selectedActivity: activity, loadActivity, updateAttendance, isLoading} = activityStore;
+    const {selectedActivity: activity, loadActivity, updateAttendance
+        , isLoading, cancelSelectedActivity} = activityStore;
     
     // URL parameter
     const {id} = useParams();
@@ -16,15 +18,15 @@ export default observer(function ActivityDetail() {
     // Load activity
     useEffect(() => {
         if (id) loadActivity(id);
-    }, [id, loadActivity]);
+
+        return () => cancelSelectedActivity();
+    }, [id, loadActivity, cancelSelectedActivity]);
 
     if (!activity) return null ;    
-        
-    console.log(activity);
-    
+            
     
     return (
-        <div className="w-9/12 mx-auto mt-10 flex justify-between">
+        <div className="w-9/12 mx-auto py-10 flex justify-between">
             <div className="w-7/12">
 
                 <div className="w-full event-img shadow-xl">
@@ -91,48 +93,7 @@ export default observer(function ActivityDetail() {
                     </div>
                 </div>
 
-                <div className="event-chat w-full mt-5 shadow-xl">
-                    <h1 className="font-medium text-center bg-white/20 backdrop-blur-sm py-2 rounded-t m-0">
-                        Chat about this event
-                    </h1>
-
-                    <div className="chat p-3 bg-secondary-custom flex flex-col gap-3">
-                        <div className="flex gap-5">
-                            <div className="profile w-1/12 ">
-                                <img className='w-full aspect-square rounded object-cover' src="https://images.unsplash.com/photo-1517849845537-4d257902454a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1935&q=80" alt="" />
-                            </div>
-
-                            <div className="info w-11/12">
-                                <div className="flex gap-2 items-end">
-                                    <p className='font-medium text-lg'>Matt</p>
-                                    <p className='text-xs text-gray-300 mb-1'>Today at 11.32pm</p>
-                                </div>
-                                <p>How artistic ?</p>
-                                <button className='text-sm font-medium text-gray-300'>Reply</button>
-                            </div>
-                        </div>
-                        <div className="flex gap-5">
-                            <div className="profile w-1/12 ">
-                                <img className='w-full aspect-square rounded object-cover' src="https://images.unsplash.com/photo-1517849845537-4d257902454a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1935&q=80" alt="" />
-                            </div>
-
-                            <div className="info w-11/12">
-                                <div className="flex gap-2 items-end">
-                                    <p className='font-medium text-lg'>Matt</p>
-                                    <p className='text-xs text-gray-300 mb-1'>Today at 11.32pm</p>
-                                </div>
-                                <p>How artistic ?</p>
-                                <button className='text-sm font-medium text-gray-300'>Reply</button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <textarea rows={5} placeholder='Post a comment' className='w-full bg-white/50 rounded focus:bg-white duration-300 ring-0 outline-none placeholder:text-gray-700 text-black font-medium' ></textarea>
-                            <button className='mt-2 px-3 py-1 btn-secondary'>Comment</button>
-                        </div>
-
-                    </div>
-                </div>
+                <Chat activityId={activity.id} />
             </div>
 
             <DetailSidebar attendees={activity.attendees!} hostUsername={activity.hostUsername!} />
