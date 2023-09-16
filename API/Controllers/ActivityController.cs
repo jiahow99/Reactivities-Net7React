@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Activities;
+using Application.Core;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -18,9 +19,9 @@ namespace API.Controllers
         // Index
         [HttpGet]   // api/activity
         [AllowAnonymous]
-        public async Task<ActionResult<List<ActivityDto>>> GetActivities()
+        public async Task<IActionResult> GetActivities([FromQuery] PagingParams param)
         {
-            return await Mediator.Send(new List.Query());
+            return HandlePagedResult(await Mediator.Send(new List.Query{Params = param}));
         }
 
         // Show

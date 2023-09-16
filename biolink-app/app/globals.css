@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  --primary-color: #141724;
+  --secondary-color: #563259;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: url("../public/background.jpg");
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+}
+
+
+::-webkit-scrollbar-track
+{
+	background-color: var(--primary-color);
+}
+
+::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: var(--secondary-color);
+}
+
+::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+	background-color: var(--secondary-color);
+}
+
+#chat-sidebar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+#chat-sidebar::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+
+/* CSS Transition for dropdown effect */
+.location-dropdown,
+.date-dropdown {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.location-dropdown.show,
+.date-dropdown.show {
+  max-height: 1000px; /* Adjust this value based on your content */
+}
