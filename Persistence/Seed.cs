@@ -18,20 +18,20 @@ namespace Persistence
                 {
                     new AppUser
                     {
-                        DisplayName = "Bob",
-                        UserName = "bob",
-                        Email = "bob@test.com"
+                        DisplayName = "Wilson",
+                        UserName = "Wilson",
+                        Email = "wilson@test.com"
                     },
                     new AppUser
                     {
-                        DisplayName = "Jane",
-                        UserName = "jane",
-                        Email = "jane@test.com"
+                        DisplayName = "Robert Dan",
+                        UserName = "Robert Dan",
+                        Email = "robert@test.com"
                     },
                     new AppUser
                     {
-                        DisplayName = "Tom",
-                        UserName = "tom",
+                        DisplayName = "Tom Cruising",
+                        UserName = "Tom Cruising",
                         Email = "tom@test.com"
                     },
                 };
@@ -47,8 +47,8 @@ namespace Persistence
                     {
                         Title = "Past Activity 1",
                         Date = DateTime.Now.AddMonths(-2),
-                        Description = "Activity 2 months ago",
-                        Category = "drinks",
+                        Description = "The metaverse is a digital realm where the physical and virtual worlds converge, promising limitless possibilities.",
+                        Category = "Web3",
                         City = "London",
                         Venue = "Pub",
                         Attendees = new List<ActivityAttendee>
@@ -64,8 +64,8 @@ namespace Persistence
                     {
                         Title = "Past Activity 2",
                         Date = DateTime.Now.AddMonths(-1),
-                        Description = "Activity 1 month ago",
-                        Category = "culture",
+                        Description = "Celebrated as a digital frontier, it's transforming our lives, redefining work, and reshaping social connections—a vision of a future where the virtual seamlessly blends with the real.",
+                        Category = "Metaverse",
                         City = "Paris",
                         Venue = "The Louvre",
                         Attendees = new List<ActivityAttendee>
@@ -86,8 +86,8 @@ namespace Persistence
                     {
                         Title = "Future Activity 1",
                         Date = DateTime.Now.AddMonths(1),
-                        Description = "Activity 1 month in future",
-                        Category = "music",
+                        Description = "As a digital frontier, it's not just a realm; it's a revolution. It's changing the way we work, socialize, and create—a window into a future where the lines between reality and the virtual blur.",
+                        Category = "Blockchain",
                         City = "London",
                         Venue = "Wembly Stadium",
                         Attendees = new List<ActivityAttendee>
@@ -108,8 +108,8 @@ namespace Persistence
                     {
                         Title = "Future Activity 2",
                         Date = DateTime.Now.AddMonths(2),
-                        Description = "Activity 2 months in future",
-                        Category = "food",
+                        Description = "The metaverse is a digital realm where the physical and virtual worlds converge, promising limitless possibilities.",
+                        Category = "Speech",
                         City = "London",
                         Venue = "Jamies Italian",
                         Attendees = new List<ActivityAttendee>
@@ -130,8 +130,8 @@ namespace Persistence
                     {
                         Title = "Future Activity 3",
                         Date = DateTime.Now.AddMonths(3),
-                        Description = "Activity 3 months in future",
-                        Category = "drinks",
+                        Description = "Celebrated as a digital frontier, it's transforming our lives, redefining work, and reshaping social connections—a vision of a future where the virtual seamlessly blends with the real.",
+                        Category = "Web3",
                         City = "London",
                         Venue = "Pub",
                         Attendees = new List<ActivityAttendee>
@@ -152,8 +152,8 @@ namespace Persistence
                     {
                         Title = "Future Activity 4",
                         Date = DateTime.Now.AddMonths(4),
-                        Description = "Activity 4 months in future",
-                        Category = "culture",
+                        Description = "The metaverse is a digital realm where the physical and virtual worlds converge, promising limitless possibilities.",
+                        Category = "Blockchain",
                         City = "London",
                         Venue = "British Museum",
                         Attendees = new List<ActivityAttendee>
@@ -169,8 +169,8 @@ namespace Persistence
                     {
                         Title = "Future Activity 5",
                         Date = DateTime.Now.AddMonths(5),
-                        Description = "Activity 5 months in future",
-                        Category = "drinks",
+                        Description = "Celebrated as a digital frontier, it's transforming our lives, redefining work, and reshaping social connections—a vision of a future where the virtual seamlessly blends with the real.",
+                        Category = "Birds",
                         City = "London",
                         Venue = "Punch and Judy",
                         Attendees = new List<ActivityAttendee>
@@ -191,8 +191,8 @@ namespace Persistence
                     {
                         Title = "Future Activity 6",
                         Date = DateTime.Now.AddMonths(6),
-                        Description = "Activity 6 months in future",
-                        Category = "music",
+                        Description = "The metaverse is a digital realm where the physical and virtual worlds converge, promising limitless possibilities.",
+                        Category = "Speech",
                         City = "London",
                         Venue = "O2 Arena",
                         Attendees = new List<ActivityAttendee>
@@ -213,8 +213,8 @@ namespace Persistence
                     {
                         Title = "Future Activity 7",
                         Date = DateTime.Now.AddMonths(7),
-                        Description = "Activity 7 months in future",
-                        Category = "travel",
+                        Description = "Celebrated as a digital frontier, it's transforming our lives, redefining work, and reshaping social connections—a vision of a future where the virtual seamlessly blends with the real.",
+                        Category = "Web3",
                         City = "Berlin",
                         Venue = "All",
                         Attendees = new List<ActivityAttendee>
@@ -235,8 +235,8 @@ namespace Persistence
                     {
                         Title = "Future Activity 8",
                         Date = DateTime.Now.AddMonths(8),
-                        Description = "Activity 8 months in future",
-                        Category = "drinks",
+                        Description = "The metaverse is a digital realm where the physical and virtual worlds converge, promising limitless possibilities.",
+                        Category = "Web3",
                         City = "London",
                         Venue = "Pub",
                         Attendees = new List<ActivityAttendee>

@@ -136,3 +136,41 @@
     transition: .1s;
     transition-property: box-shadow;
 }
+
+
+.slide-enter {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.slide-enter-active {
+  transform: translateY(0%);
+  opacity: 1;
+  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+}
+
+.slide-exit {
+  transform: translateY(0%);
+  opacity: 1;
+}
+
+.slide-exit-active {
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+}
+
+.react-datetime-picker {
+  width: 100%;
+}
+
+.react-calendar {
+  border: none !important;
+  background-color: rgba(0, 0, 0, 0.5) !important; /* Black with 30% opacity */
+  backdrop-filter: blur(15px) !important; /* Medium backdrop blur (adjust the value as needed) */
+  border-radius: 10px !important;
+}
+
+.react-calendar__navigation, .react-calendar__viewContainer {
+  /* @apply bg-primary */
+}

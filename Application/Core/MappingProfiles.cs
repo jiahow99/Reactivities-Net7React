@@ -19,9 +19,9 @@ namespace Application.Core
 
             CreateMap<Activity, ActivityDto>()
                 .ForMember(
-                    d => d.HostUsername, 
+                    d => d.Host, 
                     opt => opt.MapFrom(s => s.Attendees
-                    .FirstOrDefault(att => att.IsHost).AppUser.UserName)
+                    .FirstOrDefault(s => s.IsHost).AppUser)
                 );
             
             CreateMap<ActivityAttendee, AttendeeDto>()

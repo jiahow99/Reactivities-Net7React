@@ -49,9 +49,6 @@ export default observer(function ActivityForm() {
 
 
 
-
-    
-
     // Submit
     function createSubmit(activity: ActivityFormValues){                
         try {

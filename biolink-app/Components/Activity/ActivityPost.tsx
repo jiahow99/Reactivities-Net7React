@@ -23,13 +23,13 @@ const ActivityPost = ({activity}: Props) => {
     <div className="w-full bg-primary py-3 px-5 flex flex-col gap-5">
         <div className="w-full flex">
             <div className="w-1/12 mr-8">
-                <img src="/profile-pic.jpg" className="w-20 h-20 rounded-full object-cover" alt="profile-pic" />
+                <img src={activity.host.image ?? "/profile-pic.jpg"} className="w-20 h-20 rounded-full object-cover" alt="profile-pic" />
             </div>
 
             <div className="flex flex-col gap-1 justify-center">
                 <div className="flex gap-1 tracking-wider items-center">
                     <p className="font-semibold text-lg mr-1 capitalize">
-                        { activity.hostUsername }
+                        { activity.host.displayName }
                     </p>
                     <p className="text-sm">posted new</p>
                     <p className="text-sm text-blue-500 font-medium">
@@ -41,7 +41,7 @@ const ActivityPost = ({activity}: Props) => {
         </div>
 
         <p className={`text-sm tracking-wider font-poppins ${poppins.className}`}>
-            "The metaverse is not just a new way to access the internet; it's a new way to interact with each other and with digital content, creating a shared virtual space that transcends physical boundaries." - Mark Zuckerberg
+            { activity.description }
         </p>
 
         <PhotoGallery images={['1','2','3']} />
