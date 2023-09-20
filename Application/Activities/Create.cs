@@ -8,6 +8,7 @@ using Application.Interfaces;
 using Domain;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -18,6 +19,7 @@ namespace Application.Activities
         public class Command : IRequest<Result<Unit>>
         {
             public Activity Activity { get; set; }
+            public List<IFormFile> Files { get; set; }
         }
 
 
@@ -25,8 +27,10 @@ namespace Application.Activities
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
-            public Handler(DataContext context, IUserAccessor userAccessor)
+            private readonly IPhotoAccessor _photoAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor, IPhotoAccessor photoAccessor)
             {
+                _photoAccessor = photoAccessor;
                 _context = context;
                 _userAccessor = userAccessor;
             }
@@ -48,7 +52,12 @@ namespace Application.Activities
                 request.Activity.Attendees.Add(attendee);
 
                 // Create activity
-                _context.Activities.Add(request.Activity);
+                var activity = _context.Activities.Add(request.Activity);
+                
+                // Upload photos
+                await _photoAccessor.AddMultiplePhoto(request.Files);
+                
+                
                 var result = await _context.SaveChangesAsync() > 0;
                 if (!result) return Result<Unit>.Failure("Failed to create activity.");
                 return Result<Unit>.Success(Unit.Value);

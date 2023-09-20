@@ -36,9 +36,12 @@ namespace API.Controllers
 
         // Create
         [HttpPost]
-        public async Task<IActionResult> CreateActivity(Activity activity)
+        public async Task<IActionResult> CreateActivity(Activity activity, [FromForm] List<IFormFile> images)
         {
-            var result = await Mediator.Send(new Create.Command {Activity = activity});
+            var result = await Mediator.Send(new Create.Command {
+                Activity = activity,
+                Files = images
+            });
 
             return HandleResult(result);
         }

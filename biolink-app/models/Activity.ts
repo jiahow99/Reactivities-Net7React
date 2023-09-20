@@ -21,6 +21,7 @@ export class ActivityForm {
     date: Date | undefined = undefined;
     city: string = "";
     venue: string = "";
+    images: any[] = [];
 
     constructor(activity?: ActivityForm) {
         if (activity) {

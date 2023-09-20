@@ -53,6 +53,30 @@ namespace Infrastructure.Photo
             return null;
         }
 
+        public async Task AddMultiplePhoto(List<IFormFile> files)
+        {
+            if(files.Count > 0) 
+            {
+                foreach (var file in files)
+                {
+                    // Params 
+                    await using var stream = file.OpenReadStream();
+                    var uploadParams = new ImageUploadParams {
+                        File = new FileDescription(file.FileName, stream),
+                        Transformation = new Transformation().Height(500).Width(500).Crop("fill")
+                    };
+
+                    // Upload to cloudinary
+                    var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+
+                    // Upload Fail
+                    if(uploadResult.Error != null) {
+                        throw new Exception(uploadResult.Error.Message);
+                    }
+                }
+            }
+        }
+
         public async Task<string> DeletePhoto(string publicId)
         {
             var deleteParams = new DeletionParams(publicId);
