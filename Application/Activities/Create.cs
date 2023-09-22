@@ -55,9 +55,12 @@ namespace Application.Activities
                 var activity = _context.Activities.Add(request.Activity);
                 
                 // Upload photos
-                await _photoAccessor.AddMultiplePhoto(request.Files);
+                var photos = await _photoAccessor.AddMultiplePhoto(request.Files);
+                foreach (var photo in photos) {
+                    request.Activity.ActivityPhotos.Add(photo);
+                }
                 
-                
+                // Save changes
                 var result = await _context.SaveChangesAsync() > 0;
                 if (!result) return Result<Unit>.Failure("Failed to create activity.");
                 return Result<Unit>.Success(Unit.Value);

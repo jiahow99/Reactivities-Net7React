@@ -14,6 +14,20 @@ namespace Persistence
         {
             if (!userManager.Users.Any() && !context.Activities.Any())
             {
+                // Photos
+                var photos = new List<(string Id, string Url)>
+                {
+                    ("tfpejhud6lbwodnezn80", "https://res.cloudinary.com/dmlkpaodl/image/upload/v1695284155/tfpejhud6lbwodnezn80.jpg"),
+                    ("ejkxk12biugi0i4levcl", "https://res.cloudinary.com/dmlkpaodl/image/upload/v1695284152/ejkxk12biugi0i4levcl.jpg"),
+                    ("dp2s3ummbvxylilxafgf", "https://res.cloudinary.com/dmlkpaodl/image/upload/v1695284150/dp2s3ummbvxylilxafgf.jpg"),
+                    ("mam3wxfoonkcgen2kf7f", "https://res.cloudinary.com/dmlkpaodl/image/upload/v1695284152/mam3wxfoonkcgen2kf7f.jpg"),
+                    ("gim6h27rwr1pa7lbil8o", "https://res.cloudinary.com/dmlkpaodl/image/upload/v1695284152/gim6h27rwr1pa7lbil8o.jpg"),
+                    ("atgonkyxhg4xhhrarfgx", "https://res.cloudinary.com/dmlkpaodl/image/upload/v1695284150/atgonkyxhg4xhhrarfgx.jpg"),
+                    ("fyg0ri3oadzs7mtfikvq", "https://res.cloudinary.com/dmlkpaodl/image/upload/v1695284151/fyg0ri3oadzs7mtfikvq.jpg"),
+                    ("qjnxog263ckhfiyq6tr7", "https://res.cloudinary.com/dmlkpaodl/image/upload/v1695284150/qjnxog263ckhfiyq6tr7.jpg"),
+                    ("hpkx1dliassnrvxdrgyv", "https://res.cloudinary.com/dmlkpaodl/image/upload/v1695284150/hpkx1dliassnrvxdrgyv.jpg")
+                };
+                // Users
                 var users = new List<AppUser>
                 {
                     new AppUser
@@ -58,6 +72,12 @@ namespace Persistence
                                 AppUser = users[0],
                                 IsHost = true
                             }
+                        },
+                        ActivityPhotos = new List<ActivityPhoto>
+                        {
+                            new ActivityPhoto { Id = "tfpejhud6lbwodnezn80", Url = photos[0].Url },
+                            new ActivityPhoto { Id = "tfpejhud62bwodnezn80", Url = photos[1].Url },
+                            new ActivityPhoto { Id = "tfpejhud63bwodnezn80", Url = photos[2].Url }
                         }
                     },
                     new Activity
@@ -80,7 +100,14 @@ namespace Persistence
                                 AppUser = users[1],
                                 IsHost = false
                             },
+                        },
+                        ActivityPhotos = new List<ActivityPhoto>
+                        {
+                            new ActivityPhoto { Id = "tfpej1ud6lbwodnezn80", Url = photos[2].Url },
+                            new ActivityPhoto { Id = "tfpej2ud6lbwodnezn80", Url = photos[5].Url },
+                            new ActivityPhoto { Id = "tfpej3ud6lbwodnezn80", Url = photos[7].Url }
                         }
+                        
                     },
                     new Activity
                     {
@@ -102,6 +129,12 @@ namespace Persistence
                                 AppUser = users[1],
                                 IsHost = false
                             },
+                        },
+                        ActivityPhotos = new List<ActivityPhoto>
+                        {
+                            new ActivityPhoto { Id = "tfpe4hud6lbwodnezn80", Url = photos[1].Url },
+                            new ActivityPhoto { Id = "tfpe5hud6lbwodnezn80", Url = photos[1].Url },
+                            new ActivityPhoto { Id = "tfpe6hud6lbwodnezn80", Url = photos[3].Url }
                         }
                     },
                     new Activity
@@ -124,6 +157,12 @@ namespace Persistence
                                 AppUser = users[2],
                                 IsHost = false
                             },
+                        },
+                        ActivityPhotos = new List<ActivityPhoto>
+                        {
+                            new ActivityPhoto { Id = "tfpejhud6lbwo1nezn80", Url = photos[0].Url },
+                            new ActivityPhoto { Id = "tfpejhud6lbwo2nezn80", Url = photos[3].Url },
+                            new ActivityPhoto { Id = "tfpejhud6lbwo3nezn80", Url = photos[1].Url }
                         }
                     },
                     new Activity
@@ -146,6 +185,12 @@ namespace Persistence
                                 AppUser = users[0],
                                 IsHost = false                            
                             },
+                        },
+                        ActivityPhotos = new List<ActivityPhoto>
+                        {
+                            new ActivityPhoto { Id = "1fpejhud6lbwodnezn80", Url = photos[8].Url },
+                            new ActivityPhoto { Id = "2fpejhud6lbwodnezn80", Url = photos[7].Url },
+                            new ActivityPhoto { Id = "fpejhud6lbwodnezn80", Url = photos[6].Url }
                         }
                     },
                     new Activity
@@ -163,6 +208,12 @@ namespace Persistence
                                 AppUser = users[1],
                                 IsHost = true                            
                             }
+                        },
+                        ActivityPhotos = new List<ActivityPhoto>
+                        {
+                            new ActivityPhoto { Id = "tfpejhud6lbwodnezn86", Url = photos[6].Url },
+                            new ActivityPhoto { Id = "tfpejhud6lbwodnezn87", Url = photos[3].Url },
+                            new ActivityPhoto { Id = "tfpejhud6lbwodnezn88", Url = photos[2].Url }
                         }
                     },
                     new Activity
@@ -185,6 +236,12 @@ namespace Persistence
                                 AppUser = users[1],
                                 IsHost = false                            
                             },
+                        },
+                        ActivityPhotos = new List<ActivityPhoto>
+                        {
+                            new ActivityPhoto { Id = "afpejhud6lbwodnezn80", Url = photos[5].Url },
+                            new ActivityPhoto { Id = "bfpejhud6lbwodnezn80", Url = photos[1].Url },
+                            new ActivityPhoto { Id = "cfpejhud6lbwodnezn80", Url = photos[8].Url }
                         }
                     },
                     new Activity
@@ -207,6 +264,12 @@ namespace Persistence
                                 AppUser = users[1],
                                 IsHost = false                            
                             },
+                        },
+                        ActivityPhotos = new List<ActivityPhoto>
+                        {
+                            new ActivityPhoto { Id = "tspejhud6lbwodnezn80", Url = photos[6].Url },
+                            new ActivityPhoto { Id = "ttpejhud6lbwodnezn80", Url = photos[2].Url },
+                            new ActivityPhoto { Id = "tjejhud6lbwodnezn80", Url = photos[7].Url }
                         }
                     },
                     new Activity
@@ -229,6 +292,12 @@ namespace Persistence
                                 AppUser = users[2],
                                 IsHost = false                            
                             },
+                        },
+                        ActivityPhotos = new List<ActivityPhoto>
+                        {
+                            new ActivityPhoto { Id = "tfpejhud11bwodnezn80", Url = photos[6].Url },
+                            new ActivityPhoto { Id = "tfpejhud52bwodnezn80", Url = photos[1].Url },
+                            new ActivityPhoto { Id = "tfpejhud22bwodnezn80", Url = photos[3].Url }
                         }
                     },
                     new Activity
@@ -251,6 +320,12 @@ namespace Persistence
                                 AppUser = users[1],
                                 IsHost = false                            
                             },
+                        },
+                        ActivityPhotos = new List<ActivityPhoto>
+                        {
+                            new ActivityPhoto { Id = "t11ejhud6lbwodnezn80", Url = photos[7].Url },
+                            new ActivityPhoto { Id = "t22ejhud6lbwodnezn80", Url = photos[2].Url },
+                            new ActivityPhoto { Id = "t33ejhud6lbwodnezn80", Url = photos[5].Url }
                         }
                     }
                 };

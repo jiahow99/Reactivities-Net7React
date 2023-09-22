@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.DTO;
 using Application.Activities;
 using Application.Core;
 using Domain;
@@ -36,14 +37,35 @@ namespace API.Controllers
 
         // Create
         [HttpPost]
-        public async Task<IActionResult> CreateActivity(Activity activity, [FromForm] List<IFormFile> images)
+        public async Task<IActionResult> CreateActivity([FromForm] CreateActivityDto activityDto)
         {
+            Console.WriteLine("-------------------------");
+            Console.WriteLine(activityDto.Images.Count);
+            Console.WriteLine("-------------------------");
+
+
             var result = await Mediator.Send(new Create.Command {
-                Activity = activity,
-                Files = images
+                Activity = new Activity {
+                    Id = activityDto.Id,
+                    Title = activityDto.Title,
+                    Date = activityDto.Date,
+                    Description = activityDto.Description,
+                    Category = activityDto.Category,
+                    City = activityDto.City,
+                    Venue = activityDto.Venue
+                },
+                Files = activityDto.Images
             });
 
             return HandleResult(result);
+        }
+
+        // Create
+        [HttpPost("/test/photo")]
+        [AllowAnonymous]
+        public async Task<IActionResult> TestPhoto([FromForm] List<IFormFile> images)
+        {
+            return Ok(images.Count);
         }
 
         // Edit

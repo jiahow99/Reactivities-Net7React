@@ -1,9 +1,10 @@
+import { Photo } from "./Photo";
 import { Profile } from "./Profile";
 
 export interface Activity {
     id: string,
     title: string,
-    date: string,
+    date: Date,
     description: string,
     category: string,
     city: string,
@@ -11,6 +12,7 @@ export interface Activity {
     isCancelled: boolean,
     host: Profile,
     attendees: Array<Object>
+    images: Photo[]
 }
 
 export class ActivityForm {

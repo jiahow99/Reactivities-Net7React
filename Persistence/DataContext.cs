@@ -16,8 +16,7 @@ namespace Persistence
         public DbSet<Photo> Photos { get; set; } 
         public DbSet<Comment> Comments { get; set; }
         public DbSet<UserFollowing> UserFollowing { get; set; }
-        public DbSet<ProfilePhoto> ProfilePhotos { get; set; }
-
+        public DbSet<ActivityPhoto> ActivityPhotos { get; set; }
         
         public DataContext(DbContextOptions options) : base(options)
         {

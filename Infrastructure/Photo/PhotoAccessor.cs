@@ -6,6 +6,7 @@ using Application.Interfaces;
 using Application.Photos;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Domain;
 using Infrastructure.Photos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -53,8 +54,10 @@ namespace Infrastructure.Photo
             return null;
         }
 
-        public async Task AddMultiplePhoto(List<IFormFile> files)
+        public async Task<List<ActivityPhoto>> AddMultiplePhoto(List<IFormFile> files)
         {
+            var photos = new List<ActivityPhoto>();
+
             if(files.Count > 0) 
             {
                 foreach (var file in files)
@@ -73,8 +76,14 @@ namespace Infrastructure.Photo
                     if(uploadResult.Error != null) {
                         throw new Exception(uploadResult.Error.Message);
                     }
+
+                    photos.Add(new ActivityPhoto {
+                        Id = uploadResult.PublicId,
+                        Url = uploadResult.SecureUrl.ToString(),
+                    });
                 }
             }
+            return photos;
         }
 
         public async Task<string> DeletePhoto(string publicId)

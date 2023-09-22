@@ -9,7 +9,7 @@ namespace Application.Core
     {
         private const int MaxPageSize = 50;
         public int CurrentPage { get; set; } = 1 ;
-        public int PageSize { get; set; } = 10;
+        public int PageSize { get; set; } = 50;
         
     }
 }

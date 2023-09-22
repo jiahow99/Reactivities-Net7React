@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public class ProfilePhoto
+    public class ActivityPhoto
     {
         public string Id { get; set; }
         public string Url { get; set; }

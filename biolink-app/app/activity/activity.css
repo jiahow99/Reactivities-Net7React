@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 .create {
     --border-color: linear-gradient(-45deg, #ffae00, #7e03aa, #00fffb);
     --border-width: .125em;
@@ -171,6 +173,3 @@
   border-radius: 10px !important;
 }
 
-.react-calendar__navigation, .react-calendar__viewContainer {
-  /* @apply bg-primary */
-}

@@ -36,7 +36,7 @@ namespace Application.Activities
             {
                 // Mapper way
                 var query = _context.Activities
-                    .OrderBy(x => x.Date)
+                    .OrderByDescending(x => x.Date)
                     .ProjectTo<ActivityDto>(_mapper.ConfigurationProvider, 
                         new {currentUsername = _userAccessor.GetUsername()})
                     .AsQueryable();
