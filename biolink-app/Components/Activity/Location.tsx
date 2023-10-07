@@ -1,4 +1,4 @@
-import { useField } from 'formik';
+import { Field, useFormikContext } from 'formik';
 import React, { useState } from 'react'
 
 interface Props {
@@ -6,20 +6,12 @@ interface Props {
 }
 
 const Location = ({handleDetail}: Props) => {    
-    const [venueInput] = useField('venue'); // Access Formik field for 'venue'
-    const [cityInput] = useField('city');   // Access Formik field for 'city'
+    const { setFieldValue } = useFormikContext();
 
     // Update location details
     const updateInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        switch (name) {
-            case "venue":
-                venueInput.onChange(event); // Update 'venue' field
-                break;
-            case "city":
-                cityInput.onChange(event);  // Update 'city' field
-                break;
-        }
+        setFieldValue(name ,value);        
     };
 
     
@@ -29,12 +21,12 @@ const Location = ({handleDetail}: Props) => {
         <div className="flex w-full gap-5 py-4 text-gray-300">
             <div className="flex flex-col w-6/12 gap-2">
                 <label htmlFor="venue" className="font-medium tracking-wider">Venue</label>
-                <input onChange={updateInput} placeholder="Enter your text..." className="input text-sm" name="venue" type="text"></input>
+                <Field name='venue' onChange={updateInput} placeholder="Enter your venue..." className="input text-sm"/>
             </div>
 
             <div className="flex flex-col w-6/12 gap-2">
-                <label htmlFor="venue" className="font-medium tracking-wider">City</label>
-                <input onChange={updateInput} placeholder="Enter your text..." className="input text-sm" name="city" type="text"></input>
+                <label htmlFor="city" className="font-medium tracking-wider">City</label>
+                <Field name='city' onChange={updateInput} placeholder="Enter your city..." className="input text-sm"/>
             </div>
         </div>
         <div className="flex justify-center">

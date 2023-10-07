@@ -39,11 +39,6 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateActivity([FromForm] CreateActivityDto activityDto)
         {
-            Console.WriteLine("-------------------------");
-            Console.WriteLine(activityDto.Images.Count);
-            Console.WriteLine("-------------------------");
-
-
             var result = await Mediator.Send(new Create.Command {
                 Activity = new Activity {
                     Id = activityDto.Id,
@@ -60,21 +55,12 @@ namespace API.Controllers
             return HandleResult(result);
         }
 
-        // Create
-        [HttpPost("/test/photo")]
-        [AllowAnonymous]
-        public async Task<IActionResult> TestPhoto([FromForm] List<IFormFile> images)
-        {
-            return Ok(images.Count);
-        }
-
         // Edit
         [Authorize(Policy = "IsHostPolicy")]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditActivity(Guid id, Activity activity)
         {
             activity.Id = id;
-            
             return HandleResult(await Mediator.Send(new Edit.Command {Activity = activity}));
         }
 
@@ -91,6 +77,14 @@ namespace API.Controllers
         public async Task<IActionResult> UpdateAttendance(Guid id)
         {
             return HandleResult(await Mediator.Send(new UpdateAttendance.Command {Id = id}));
+        }
+
+        // Search
+        [HttpGet("search")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Search([FromQuery] SearchParams searchParams)
+        {
+            return HandleResult(await Mediator.Send(new Search.Query {SearchParams = searchParams}));
         }
     }
 }   

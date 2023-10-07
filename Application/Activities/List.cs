@@ -34,12 +34,25 @@ namespace Application.Activities
 
             public async Task<Result<PagedList<ActivityDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                // Mapper way
-                var query = _context.Activities
-                    .OrderByDescending(x => x.Date)
-                    .ProjectTo<ActivityDto>(_mapper.ConfigurationProvider, 
-                        new {currentUsername = _userAccessor.GetUsername()})
-                    .AsQueryable();
+                IQueryable<ActivityDto> query;
+
+                // Get ongoing activities
+                if (request.Params.OnGoing) {
+                    query = _context.Activities
+                        .Where(x => x.Date.Date == DateTime.Now.Date)
+                        .OrderBy(x => x.Date)
+                        .ProjectTo<ActivityDto>(_mapper.ConfigurationProvider, 
+                            new {currentUsername = _userAccessor.GetUsername()})
+                        .AsQueryable();
+                } else {
+                // Get all activities
+                    query = _context.Activities
+                        .Where(x => x.Date >= DateTime.Today)
+                        .OrderBy(x => x.Date)
+                        .ProjectTo<ActivityDto>(_mapper.ConfigurationProvider, 
+                            new {currentUsername = _userAccessor.GetUsername()})
+                        .AsQueryable();
+                }
 
                 return Result<PagedList<ActivityDto>>.Success(
                     await PagedList<ActivityDto>.CreateAsync(query, request.Params.CurrentPage

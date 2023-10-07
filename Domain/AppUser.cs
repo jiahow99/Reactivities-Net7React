@@ -13,7 +13,7 @@ namespace Domain
         public ICollection<ActivityAttendee> Activities { get; set; }
         public ICollection<UserFollowing> Followings { get; set; }
         public ICollection<UserFollowing> Followers { get; set; }
-        public ICollection<Photo> Photos { get; set; } = new List<Photo>();
+        public ICollection<Photo> Photos { get; set; }
 
     }
 }

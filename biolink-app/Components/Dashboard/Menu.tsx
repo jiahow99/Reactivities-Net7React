@@ -12,8 +12,8 @@ const Menu = ({ label, to }: Props ) => {
   return (
     <Link 
       href={to} 
-      className={`px-3 py-5 hover:bg-gray-800 border-b-4 border-transparent hover:border-purple-700 text-sm font-medium tracking-widest
-      ${pathname === to && "bg-gray-800 border-purple-700"}`}
+      className={`px-3 py-5 hover:bg-gray-800 border-b-4  hover:border-purple-700 text-sm font-medium tracking-widest
+      ${pathname === to ? "bg-gray-800 border-purple-700" : "border-transparent"}`}
     >
         { label }
     </Link>

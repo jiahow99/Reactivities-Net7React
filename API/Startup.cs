@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using API.Extensions;
 using API.Middleware;
@@ -38,7 +39,8 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers(opt => 
+            services
+            .AddControllers(opt => 
             {
                 // Add Auth Policy to all controller
                 var policy = new AuthorizationPolicyBuilder()
@@ -46,7 +48,11 @@ namespace API
                     .Build();
 
                 opt.Filters.Add(new AuthorizeFilter(policy));
-            });
+            })
+            .AddJsonOptions(x => {
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            })
+;
             
             services.AddApplicationServices(_config);
             

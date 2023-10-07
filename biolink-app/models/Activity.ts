@@ -11,7 +11,7 @@ export interface Activity {
     venue: string,
     isCancelled: boolean,
     host: Profile,
-    attendees: Array<Object>
+    attendees: Profile[]
     images: Photo[]
 }
 

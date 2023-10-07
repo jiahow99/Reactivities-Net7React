@@ -29,29 +29,26 @@ namespace Infrastructure.Photo
 
         public async Task<PhotoUploadResult> AddPhoto(IFormFile file)
         {
-            if(file.Length > 0) 
-            {
-                await using var stream = file.OpenReadStream();
-                var uploadParams = new ImageUploadParams {
-                    File = new FileDescription(file.FileName, stream),
-                    Transformation = new Transformation().Height(500).Width(500).Crop("fill")
-                };
+            if (file.Length == 0) return null;
 
-                var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+            await using var stream = file.OpenReadStream();
+            var uploadParams = new ImageUploadParams {
+                File = new FileDescription(file.FileName, stream),
+                Transformation = new Transformation().Height(500).Width(500).Crop("fill")
+            };
 
-                // Uplaod fail
-                if(uploadResult.Error != null) {
-                    throw new Exception(uploadResult.Error.Message);
-                }
+            var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
-                // Success, return results
-                return new PhotoUploadResult {
-                    PublicId = uploadResult.PublicId,
-                    Url = uploadResult.SecureUrl.ToString()
-                };
+            // Uplaod fail
+            if(uploadResult.Error != null) {
+                return null;
             }
 
-            return null;
+            // Success, return results
+            return new PhotoUploadResult {
+                PublicId = uploadResult.PublicId,
+                Url = uploadResult.SecureUrl.ToString()
+            };
         }
 
         public async Task<List<ActivityPhoto>> AddMultiplePhoto(List<IFormFile> files)

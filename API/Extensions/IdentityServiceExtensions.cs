@@ -51,6 +51,11 @@ namespace API.Extensions
                         return Task.CompletedTask;
                     }
                 };
+            })
+            .AddGoogle(opt => 
+            {
+                opt.ClientId = config.GetSection("GoogleAuth")["ClientId"];
+                opt.ClientSecret = config.GetSection("GoogleAuth")["ClientSecret"];
             });
             
             // Policy (IsHost)

@@ -11,6 +11,6 @@ namespace Domain
         public string Message { get; set; }
         public AppUser Author { get; set; }
         public Activity Activity { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }

@@ -16,14 +16,14 @@ namespace Application.Activities
 {
     public class Create
     {
-        public class Command : IRequest<Result<Unit>>
+        public class Command : IRequest<Result<Activity>>
         {
             public Activity Activity { get; set; }
             public List<IFormFile> Files { get; set; }
         }
 
 
-        public class Handler : IRequestHandler<Command, Result<Unit>>
+        public class Handler : IRequestHandler<Command, Result<Activity>>
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
@@ -36,7 +36,7 @@ namespace Application.Activities
             }
 
 
-            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Activity>> Handle(Command request, CancellationToken cancellationToken)
             {
                 // Find user with info from JWT in header
                 var user = await _context.Users.FirstOrDefaultAsync(
@@ -62,8 +62,8 @@ namespace Application.Activities
                 
                 // Save changes
                 var result = await _context.SaveChangesAsync() > 0;
-                if (!result) return Result<Unit>.Failure("Failed to create activity.");
-                return Result<Unit>.Success(Unit.Value);
+                if (!result) return Result<Activity>.Failure("Failed to create activity.");
+                return Result<Activity>.Success(request.Activity);
             }
         }
     }

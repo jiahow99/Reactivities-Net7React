@@ -6,11 +6,7 @@ import React, { useEffect } from "react";
 import { useField } from "formik";
 import { Trash } from "react-feather";
 
-interface Props {
-  setFiles: (files:any) => void;
-}
-
-export const PhotoUpload = ({setFiles}: Props) => {
+export const PhotoUpload = () => {
   const [field, meta, helpers] = useField("images");
   const {value} = meta;
   const {setValue} = helpers;
@@ -38,7 +34,7 @@ export const PhotoUpload = ({setFiles}: Props) => {
       <Dropzone />
 
       {meta.value && meta.value.length > 0 && meta.value.map((file: any) => (
-        <div className="relative">
+        <div className="relative" key={file.preview}>
           <div className="absolute top-0 right-0 bg-black/50 backdrop-blur-sm p-3 rounded-full cursor-pointer group">
             <Trash onClick={() => handleDelete(file.path)} className="group-hover:text-red-400 duration-200" />
           </div>

@@ -8,7 +8,6 @@ export default function UserDropdown() {
     
     const navigate = useNavigate();
 
-
     const handleLogout = () => {
         // Remove jwt token
         logout();

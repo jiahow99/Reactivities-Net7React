@@ -24,10 +24,10 @@ namespace API.Controllers
         }
 
 
-        [HttpPost("{id}/setMain")]  // api/{id}/setMain
-        public async Task<IActionResult> SetMain(string id)
+        [HttpPost("upload")]  // api/photo/upload
+        public async Task<IActionResult> SetMain([FromForm] IFormFile file)
         {
-            return HandleResult(await Mediator.Send(new SetMain.Command {Id = id}));
+            return HandleResult(await Mediator.Send(new SetMain.Command {File = file}));
         }
         
     }

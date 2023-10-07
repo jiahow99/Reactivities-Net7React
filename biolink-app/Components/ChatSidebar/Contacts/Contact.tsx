@@ -1,11 +1,15 @@
 import Image from "next/image"
 
-const Contact = () => {
+interface Props {
+  image: string
+  username: string
+}
+const Contact = ({ image, username }: Props) => {
   return (
     <div className="px-5 flex justify-between items-center">
       <div className="w-4/12">
         <Image 
-            src="/profile-pic.jpg"
+            src={image}
             width={50}
             height={50}
             className="rounded-full p-1 border-2 border-green-400"
@@ -14,7 +18,7 @@ const Contact = () => {
       </div>
 
       <div className="w-8/12">
-        Tom
+        { username }
       </div>
       
       <div className="w-1/12">

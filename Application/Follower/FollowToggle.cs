@@ -31,11 +31,16 @@ namespace Application.Follower
             {
                 // Main user
                 var observer = await _context.Users
-                    .FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
+                    .SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
 
                 // Target user
                 var targetUser = await _context.Users
-                    .FirstOrDefaultAsync(x => x.UserName == request.TargetUsername);
+                    .SingleOrDefaultAsync(x => x.UserName == request.TargetUsername);
+
+                Console.WriteLine("------------------------------");
+                Console.WriteLine(observer.UserName);
+                Console.WriteLine(targetUser.UserName);
+                Console.WriteLine("------------------------------");
 
                 if (targetUser == null) return null;
 
