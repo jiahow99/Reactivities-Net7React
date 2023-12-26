@@ -20,7 +20,7 @@ Completed as a Side Project during my university. Exploring the Depths of .NET C
  
 🔗 DTO Data Format: Streamlined data communication across layers using DTOs (Data Transfer Objects), ensuring a consistent and unified format, and promoting efficient data flow.
  
-👉 Explore the Code: https://lnkd.in/gq-9nNhP
-🎥 Watch the Journey: https://lnkd.in/g52e3G_q
+👉 Connect with ME : https://www.linkedin.com/in/kahhowliong/
+🎥 Watch the Journey: https://www.youtube.com/watch?v=eZ95euAsrPA
  
 #web3community #metaverse #techenthusiast #fullstackdevelopment #cleancode #dotnetcore #dotnet #restapi #nextjs #ssr #reactjs #sideproject #tailwindcss #responsivewebdesign
