@@ -4,6 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Activities;
 using Application.Core;
+using Application.Interfaces;
+using Infrastructure;
+using Infrastructure.Photo;
+using Infrastructure.Photos;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -22,10 +26,29 @@ namespace API.Extensions
             services.AddDbContext<DataContext>(opt => {
                 opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
             });
+            // Register new CORS
+            services.AddCors(opt => 
+            {
+                opt.AddPolicy("CorsPolicy", policy => 
+                {
+                    policy.AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+                        .WithOrigins("http://localhost:3000");
+                });
+            });
             // Mediator
             services.AddMediatR(typeof(List.Handler).Assembly);
             // Auto Mapper
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+            // User Accessor
+            services.AddScoped<IUserAccessor, UserAccessor>();
+            // Photo Accessor
+            services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+            // Cloudinary API
+            services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
+            // SignalR
+            services.AddSignalR();
 
             return services;
         }

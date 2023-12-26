@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.input {
+    background-color: #212121;
+    padding: 10px;
+    /* text-align: center; */
+    border: 2px solid white;
+    border-radius: 5px;
+    /* box-shadow: 3px 3px 2px rgb(249, 255, 85); */
+}
+
+.input:focus {
+    color: rgb(0, 255, 255);
+    background-color: #212121;
+    outline-color: rgb(0, 255, 255);
+    box-shadow: -3px -3px 15px rgb(0, 255, 255);
+    transition: .1s;
+    transition-property: box-shadow;
+}
+
+
+.slide-enter {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.slide-enter-active {
+  transform: translateY(0%);
+  opacity: 1;
+  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+}
+
+.slide-exit {
+  transform: translateY(0%);
+  opacity: 1;
+}
+
+.slide-exit-active {
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+}
+
+.react-datetime-picker {
+  width: 100%;
+}
+
+.react-calendar {
+  border: none !important;
+  background-color: rgba(0, 0, 0, 0.5) !important; /* Black with 30% opacity */
+  backdrop-filter: blur(15px) !important; /* Medium backdrop blur (adjust the value as needed) */
+  border-radius: 10px !important;
+}
+
