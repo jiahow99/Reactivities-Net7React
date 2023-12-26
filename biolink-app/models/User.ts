@@ -13,7 +13,7 @@ export interface User {
 export class RegisterForm {
     email: string = '';
     username: string = '';
-    password: string = 'Pa$$';
+    password: string = '';
     confirmPassword: string = '';
     displayName: string = '';
     apiError: any = null;

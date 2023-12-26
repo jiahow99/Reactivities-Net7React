@@ -14,7 +14,7 @@ import { signIn } from 'next-auth/react';
 export default observer(function HomePage() {
     
     const [mode, setMode] = useState('login');
-    const {modalOpen, closeModal, register} = userStore;
+    const {modalOpen, closeModal} = userStore;
     
     // useRouter
     const router = useRouter();

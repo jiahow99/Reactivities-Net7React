@@ -19,7 +19,7 @@ export const AttendeeComponent = ({attendee}: Props) => {
         <div className="w-full sm:w-9/12 pl-2">
             <p>{attendee.displayName ?? attendee.username}</p>
         </div>
-        {attendee.username !== user.username && attendee.following &&
+        {attendee.username !== user?.username && attendee.following &&
           <FollowingTag />
         }
     </div>
